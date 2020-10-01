@@ -6,6 +6,7 @@ const port = 4000;
 const bodyParser=require('body-parser');
 const mongoose=require('mongoose');
 const start = require('./app/routes/mainRoute'); 
+
 var cors = require('cors')
 
 // set up dependencies
@@ -20,7 +21,7 @@ app.get('/', (request, respond) => {
 
 /**Mongo Db */
 // set up mongoose
-mongoose.connect('mongodb+srv://sonp:Chikiet1@@clusterblogaccessories.w6uag.gcp.mongodb.net/<BlogAccessories>?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://sonp:Chikiet1@@clusterblogaccessories.w6uag.gcp.mongodb.net/<BlogAccessories>?retryWrites=true&w=majority', { useNewUrlParser: true,useFindAndModify:false,useCreateIndex:true,useUnifiedTopology: true})
   .then(()=> {
     console.log('Database connected');
   })
