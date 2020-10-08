@@ -54,10 +54,12 @@ let imageSchema = new Schema ({
 
 let articleSchema = new Schema({
   tittle:{type: String},
-  content:{type: String},
+  content:[{type:String}],
   likesCount:{type:Number,default:0},
   postedOn:{type:Date,default:Date.now()},
-  idUser:{type:mongoose.ObjectId}
+  idUser:{type:mongoose.ObjectId},
+  idAvatarPost:{type:mongoose.ObjectId},
+  idArrayAvatarInPost:[{type:mongoose.ObjectId}]
 })
 
 let commentSchema = new Schema({
@@ -65,7 +67,8 @@ let commentSchema = new Schema({
   content:{type:String},
   postedOn:{type:Date},
   idUser:{type:mongoose.Schema.ObjectId},
-  idChild:[{type:mongoose.Schema.ObjectId}]
+  idChild:[{type:mongoose.Schema.ObjectId}],
+  idArticile: {type:String}
 })
 
 var testModels = mongoose.model('Test', TestSchema);

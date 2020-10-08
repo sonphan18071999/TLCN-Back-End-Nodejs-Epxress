@@ -37,5 +37,6 @@ router.post('/post-image',image_Controller.addNewImage);
 
 /**Article */
 router.post('/post-article',article_Controller.addNewArticle);
+router.get('/get-all-article',article_Controller.getAllArticle);
 /**Article */
 module.exports = router;
