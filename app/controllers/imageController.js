@@ -33,11 +33,15 @@ exports.addNewImage = async function (req, res, next) {
   // https://api.cloudinary.com/v1_1/dsnt8hyn6/image/upload
 
   const file = req.files.photo
-  console.log(file);
-  cloudinary.uploader.upload(file.tempFilePath,function(err,result){
+  // console.log(file);
+  file.forEach(element => {
+    // console.log(element.tempFilePath);
+    cloudinary.uploader.upload(element.tempFilePath,function(err,result){
     console.log("Error: ",err);
     console.log("Result: ",result);
-  } )
+  })
+  });
+ 
 
 
   // cloudinary.v2.uploader.upload("/home/sample.jpg", 
