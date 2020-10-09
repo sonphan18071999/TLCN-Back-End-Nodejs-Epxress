@@ -33,6 +33,8 @@ router.post('/check-user',user_Account_Controller.checkAccount)
 
 /**Image */
 router.post('/post-image',image_Controller.addNewImage);
+router.get('/get-all-image',image_Controller.getAllImage);
+
 /**Image */
 
 /**Article */

@@ -49,7 +49,7 @@ let AccountSchema = new Schema({
 })
 let imageSchema = new Schema ({
   nameImage:{type:String},
-  img: { data: Buffer, contentType: String }
+  img: {type: String }
 })
 
 let articleSchema = new Schema({

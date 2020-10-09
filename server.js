@@ -6,7 +6,7 @@ const port = 4000;
 const bodyParser=require('body-parser');
 const mongoose=require('mongoose');
 const start = require('./app/routes/mainRoute'); 
-
+const fileupload = require("express-fileupload");
 var cors = require('cors')
 
 // set up dependencies
@@ -18,6 +18,9 @@ app.get('/', (request, respond) => {
     message: 'Welcome to Project Support',
   });
 });
+app.use(fileupload({
+  useTempFiles:true
+}));
 
 /**Mongo Db */
 // set up mongoose
