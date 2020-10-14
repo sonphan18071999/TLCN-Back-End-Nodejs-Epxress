@@ -7,7 +7,7 @@ const user_Account_Controller = require('../controllers/userAccountController')
 // const { userAccountModels } = require('../models/mainModels')
 const image_Controller = require('../controllers/imageController');
 const article_Controller = require('../controllers/articleController');
-
+const comment_Controller = require('../controllers/commentController');
 const router = express.Router();
 
 /**CPU */
@@ -40,5 +40,13 @@ router.get('/get-all-image',image_Controller.getAllImage);
 /**Article */
 router.post('/post-article',article_Controller.addNewArticle);
 router.get('/get-all-article',article_Controller.getAllArticle);
+router.get('/get-article',article_Controller.getArticleById);
+router.post('/update-article',article_Controller.updateArticleById);
+router.post('/delete-article',article_Controller.deleteArticleById)
 /**Article */
+
+
+/**Comment */
+router.post('/post-comment',comment_Controller.postComment);
+/**Comment */
 module.exports = router;

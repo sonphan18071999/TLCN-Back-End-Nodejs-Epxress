@@ -57,6 +57,7 @@ let partContentSchema = new Schema({
 })
 let articleSchema = new Schema({
   tittle: { type: String },
+  description:{type:String},
   content: [
   {    
     partName: { type: String },
@@ -72,10 +73,10 @@ let articleSchema = new Schema({
 let commentSchema = new Schema({
   likesCount:{type:Number,default:0},
   content:{type:String},
-  postedOn:{type:Date},
+  postedOn:{type:Date,default:Date.now},
   idUser:{type:mongoose.Schema.ObjectId},
-  idChild:[{type:mongoose.Schema.ObjectId}],
-  idArticile: {type:String}
+  idChild:{type:mongoose.Schema.ObjectId},
+  idArticile: {type:mongoose.Schema.ObjectId}
 })
 
 var testModels = mongoose.model('Test', TestSchema);

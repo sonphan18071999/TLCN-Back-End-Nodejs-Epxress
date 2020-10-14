@@ -11,12 +11,9 @@ cloudinary.config({
 
 exports.addNewArticle = async function (req, res, next) {
    
-  var idArticle,avatarResult;
   
   var article = new db.articleModels();
   article = req.body;
-  
-
   // 1. Convert link image main Image send to cloudiary make it online
  
   await cloudinary.uploader.upload(article.AvatarPost, function (err, result) {
@@ -57,18 +54,63 @@ exports.addNewArticle = async function (req, res, next) {
       })
     }
   })
-  
-  
- 
-  
 }
 
 exports.getAllArticle = async function (req, res, next) {
   const allArticle = await db.articleModels.find();
-
   return  res.status(200).json({
-      message: "All article in database",
-      allArticle: allArticle
-    });
-  
+      "Article": allArticle
+    }); 
+}
+exports.getArticleById =  async function (req,res,next) {
+   db.articleModels.findOne({_id:mongo.ObjectID(req.body.id)},function(er,articleFinded){
+      if(er){
+         res.status(500).json({
+          "Message":"Article doesnt exist"+er,
+        })
+      }else{
+        res.status(200).json({
+          "Message":"Get article successfully",
+          "Article":articleFinded
+        })
+      }
+}) 
+}
+
+exports.updateArticleById = async function (req,res,next) {
+  var article = req.body;
+  await db.articleModels.findOneAndUpdate({_id:mongo.ObjectID(req.body.id)},{$set:{tittle:article.tittle}}, (error,ok)=> {
+    if(error){
+    return res.status(500).json({
+        "Message":"Cant update this article",
+        "Error":error
+      })
+    }
+    if(ok){
+    return  res.status(200).json({
+        "Message":"Insert article successfully",
+        "Article":ok
+      })
+    }
+  }) 
+} 
+exports.deleteArticleById = async (req,res,next)=> {
+  if(req.body.id==null){
+    return res.status(500).json({
+      "Message":"You don't put any id"
+    })
+  }
+  await db.articleModels.deleteOne({_id:mongo.ObjectID(req.body.id)},(err,ok)=>{
+    if(err){
+      return res.status(500).json({
+        "Message":"Cant delete this article",
+        "error":err
+      })
+    }
+    if(ok){
+      return res.status(200).json({
+        "Message":"Delete article successfully"
+      })
+    }
+  })
 }
