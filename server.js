@@ -11,8 +11,6 @@ var cors = require('cors')
 
 // set up dependencies
 app.use(cors())
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 app.get('/', (request, respond) => {
   respond.status(200).json({
     message: 'Welcome to Project Support',
@@ -22,6 +20,10 @@ app.use(fileupload({
   useTempFiles:true
 }));
 
+
+//Un limit request
+app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:52428800}));
 /**Mongo Db */
 // set up mongoose
 mongoose.connect('mongodb+srv://sonp:Chikiet1@@clusterblogaccessories.w6uag.gcp.mongodb.net/<BlogAccessories>?retryWrites=true&w=majority', { useNewUrlParser: true,useFindAndModify:false,useCreateIndex:true,useUnifiedTopology: true})

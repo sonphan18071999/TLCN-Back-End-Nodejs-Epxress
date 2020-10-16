@@ -2,7 +2,7 @@ const { json } = require('body-parser');
 const db = require('../models/mainModels');
 const upload = require("../middleware/upload");
 const { Schema, mongo, isValidObjectId, Mongoose } = require('mongoose');
-const cloudinary = require('cloudinary').v2;
+const cloudinary = require('cloudinary');
 cloudinary.config({
   cloud_name:"dsnt8hyn6",
   api_key:"121517243286974",
@@ -17,28 +17,28 @@ exports.addNewArticle = async function (req, res, next) {
   // 1. Convert link image main Image send to cloudiary make it online
  
   await cloudinary.uploader.upload(article.AvatarPost, function (err, result) {
-    if (err) {
-      console.log("Error: ", err);
-    } else {
+    // if (err) {
+    //   console.log("Error: ", err);
+    // } else {
       //set URL for Avatar Post
-      article.AvatarPost=result.url;
-    }
+      article.AvatarPost=err.url;
+      // console.log(err.url);
+    // }
   })
-   //2. Convert link array images send to cloudiary and make it online
-   for (var i = 0; i < article.content.length; i++) {
-     for (var j = 0; j < article.content[i].images.length; j++) {
-       await cloudinary.uploader.upload(article.content[i].images[j], function (err, result) {
-         if (err) {
-           console.log("Error: ", err);
-         } else {
-           //Lấy URL trả về từ Cloudiary
-           console.log("Url da upload la: "+article.content[i].images[j]);
-           article.content[i].images[j]=result.url.toString();
-         }
-       })
-      // console.log(article.content[i].images[j]);
-     }
-   } 
+
+   //2. Convert link images send to cloudiary and make it online
+  for (var i = 0; i < article.content.length; i++) {
+    await cloudinary.uploader.upload(article.content[i].images,
+      function (err, result) {
+      // if (err) {
+      //   // console.log("Error: ", err);
+      // } else {
+      //   //Lấy URL trả về từ Cloudiary
+      //   console.log("Url da upload la: " + article.content[i].images);
+        article.content[i].images = err.url.toString();
+      // }
+    })
+  } 
 
   //3. Insert article to database type JSON - Raw
   await db.articleModels.insertMany(article, function (err, ok) {
@@ -59,6 +59,7 @@ exports.addNewArticle = async function (req, res, next) {
 exports.getAllArticle = async function (req, res, next) {
   const allArticle = await db.articleModels.find();
   return  res.status(200).json({
+      message: "All article in database",
       "Article": allArticle
     }); 
 }

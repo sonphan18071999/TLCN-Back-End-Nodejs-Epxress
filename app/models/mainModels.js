@@ -59,11 +59,11 @@ let articleSchema = new Schema({
   tittle: { type: String },
   description:{type:String},
   content: [
-  {    
-    partName: { type: String },
-    partContent: { type: String },
-    images: [{ type: String }]
-  }],
+    {
+      partContent: { type: String },
+      images: { type: String }
+    }
+  ],
   likesCount: { type: Number, default: 0 },
   postedOn: { type: Date, default: Date.now() },
   idUser: { type: mongoose.ObjectId },
