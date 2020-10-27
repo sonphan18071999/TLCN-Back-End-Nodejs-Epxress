@@ -22,7 +22,9 @@ app.use(fileupload({
 
 
 //Un limit request
-app.use(bodyParser.json({limit: "50mb"}));
+// app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.json());
+
 app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:52428800}));
 /**Mongo Db */
 // set up mongoose

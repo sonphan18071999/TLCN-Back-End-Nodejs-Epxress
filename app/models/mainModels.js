@@ -45,7 +45,6 @@ let AccountSchema = new Schema({
   idUser: { type: String, required: true },
   isAdmin: { type: String, default: "normal" },
   reputation :{type:Number,default:0}
-
 })
 let imageSchema = new Schema ({
   nameImage:{type:String},

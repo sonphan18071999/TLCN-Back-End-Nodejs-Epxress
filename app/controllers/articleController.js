@@ -2,6 +2,8 @@ const { json } = require('body-parser');
 const db = require('../models/mainModels');
 const upload = require("../middleware/upload");
 const { Schema, mongo, isValidObjectId, Mongoose } = require('mongoose');
+const {ObjectId} = require('mongodb'); // or ObjectID 
+
 const cloudinary = require('cloudinary');
 cloudinary.config({
   cloud_name:"dsnt8hyn6",
@@ -63,24 +65,16 @@ exports.getAllArticle = async function (req, res, next) {
       "Article": allArticle
     }); 
 }
-exports.getArticleById =  async function (req,res,next) {
-   db.articleModels.findOne({_id:mongo.ObjectID(req.body.id)},function(er,articleFinded){
-      if(er){
-         res.status(500).json({
-          "Message":"Article doesnt exist"+er,
-        })
-      }else{
-        res.status(200).json({
-          "Message":"Get article successfully",
-          "Article":articleFinded
-        })
-      }
-}) 
+exports.getArticleById = async function (req, res, next) {
+  await db.articleModels.findOne({ _id: req.query.id },(err,ok)=>{
+  return ok ? res.status(200).json({"Aricle":ok}) : 
+              res.status(500).json({"Cant retrive article ":err})
+  })
 }
 
 exports.updateArticleById = async function (req,res,next) {
   var article = req.body;
-  await db.articleModels.findOneAndUpdate({_id:mongo.ObjectID(req.body.id)},{$set:{tittle:article.tittle}}, (error,ok)=> {
+  await db.articleModels.findOneAndUpdate({_id:req.body.id},{$set:{tittle:article.tittle}}, (error,ok)=> {
     if(error){
     return res.status(500).json({
         "Message":"Cant update this article",
