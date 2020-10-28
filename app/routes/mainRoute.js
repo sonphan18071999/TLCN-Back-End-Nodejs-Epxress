@@ -1,29 +1,19 @@
 const express = require('express')
 const test_Controller=require('../controllers/testController')
-const cpu_Controller=require('../controllers/cputController')
 const brand_Controller=require('../controllers/brandController')
-const user_Controller = require('../controllers/userController')
 const user_Account_Controller = require('../controllers/userAccountController')
-// const { userAccountModels } = require('../models/mainModels')
 const image_Controller = require('../controllers/imageController');
 const article_Controller = require('../controllers/articleController');
 const comment_Controller = require('../controllers/commentController');
 const router = express.Router();
 
-/**CPU */
-router.post('/add-new-cpu',cpu_Controller.AddNewCPU);
-router.put('/edit-cpu',cpu_Controller.EditCPU);
-router.get('/get-all-cpu',cpu_Controller.getAllCPU);
-/**CPU */
+
 
 /**Brand */
 router.post('/add-new-brand',brand_Controller.addNewBrand);
 /**Brand */
 
 
-/**User */
-router.post('/add-new-user',user_Controller.AddUserCPU);
-/**User */
 
 
 /**User account */
