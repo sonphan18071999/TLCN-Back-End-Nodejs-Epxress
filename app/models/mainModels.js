@@ -23,7 +23,8 @@ let AccountSchema = new Schema({
   phone: { type: String, required: true, default: null },
   identification: { type: String, default: null },
   userAvatar:{type:String,default:null},
-  typeAccount: {type: String, enum : ['normal','admin','facebook','google'], default: 'normal'}
+  typeAccount: {type: String, enum : ['normal','admin','facebook','google'], default: 'normal'},
+  isNewAccount:{type:Boolean,default:false}
 })
 let imageSchema = new Schema ({
   nameImage:{type:String},
