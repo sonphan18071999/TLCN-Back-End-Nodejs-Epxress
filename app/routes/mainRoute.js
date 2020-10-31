@@ -29,7 +29,7 @@ router.get('/get-all-image',image_Controller.getAllImage);
 
 /**Article */
 router.post('/post-article',article_Controller.addNewArticle);
-router.get('/get-all-article',article_Controller.getAllArticle);
+router.post('/get-all-article',article_Controller.getAllArticle);
 router.get('/get-article',article_Controller.getArticleById);
 router.post('/update-article',article_Controller.updateArticleById);
 router.post('/delete-article',article_Controller.deleteArticleById)

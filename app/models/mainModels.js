@@ -43,7 +43,15 @@ let articleSchema = new Schema({
   likesCount: { type: Number, default: 0 },
   postedOn: { type: Date, default: Date.now() },
   idUser: { type: mongoose.ObjectId },
-  AvatarPost: { type: String }
+  AvatarPost: { type: String },
+  comment:[{
+    likesCount:{type:Number},
+    content:{type:String},
+    postedOn:{type:Date,default:Date.now},
+    idUser:{type:mongoose.Schema.ObjectId},
+    idChild:{type:mongoose.Schema.ObjectId},
+    idArticile: {type:mongoose.Schema.ObjectId}
+  }]
 })
 
 let commentSchema = new Schema({

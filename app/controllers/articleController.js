@@ -17,30 +17,17 @@ exports.addNewArticle = async function (req, res, next) {
   var article = new db.articleModels();
   article = req.body;
   // 1. Convert link image main Image send to cloudiary make it online
- 
   await cloudinary.uploader.upload(article.AvatarPost, function (err, result) {
-    // if (err) {
-    //   console.log("Error: ", err);
-    // } else {
       //set URL for Avatar Post
       article.AvatarPost=err.url;
-      // console.log("err.url"+err.url);
-      // console.log(err.url);
-    // }
   })
 
    //2. Convert link images send to cloudiary and make it online
   for (var i = 0; i < article.content.length; i++) {
     await cloudinary.uploader.upload(article.content[i].images,
       function (err, result) {
-      // if (err) {
-      //   // console.log("Error: ", err);
-      // } else {
-      //   //Lấy URL trả về từ Cloudiary
-      //   console.log("Url da upload la: " + article.content[i].images);
+      //Lấy URL trả về từ Cloudiary
         article.content[i].images = err.url.toString();
-
-      // }
     })
   } 
 
@@ -61,13 +48,7 @@ exports.addNewArticle = async function (req, res, next) {
 }
 
 exports.getAllArticle = async function (req, res, next) {
-  var mostPopularArticleOfDay = new db.articleModels(), maxLikeCounts=0, checkDuplicate=false;
-
-  var currentDatetime = new Date();
-
   const allArticle = await db.articleModels.find();
-
-
   /**Lấy 1 bài viết có lượt like cao nhất trong ngày. 
    * Và 12 bài viết theo ngày.
    * Nếu bài viết trong ngày không đủ sẽ lấy bài viết của các ngày sau đó. */
@@ -76,12 +57,29 @@ exports.getAllArticle = async function (req, res, next) {
   // console.log(getDateTime());
   //Format ngày và giờ 30T08:35:55. Trước T là ngày, sau là giờ hiện tại.
   //Step 01: Lấy bài viết có số like cao nhất.
- 
- 
   return  res.status(200).json({
     message: "The most liked article of the day.",
-    "Article":  getMostLikeArticleByDay(allArticle)
+    "PopularArticle":getMostLikeArticleByDay(allArticle),
+    "Article":pagingArticle(allArticle,req.body.order)
   }); 
+}
+function pagingArticle (allArticle,current) {
+  var article = new Array(); 
+  var sixArticle = new Array(); 
+  var currentDay = new Date();
+  /**Chọn ra danh sách những bài viết ngày hôm nay*/
+  allArticle.forEach(element => {
+    if(element.postedOn.getDate()==currentDay.getDate()){
+      article.push(element);
+    }
+  });
+  /**Chọn ra danh sách những bài viết ngày hôm nay*/
+  /**Load mỗi lần 6 bài viết  */
+  for(var i = current;i<article.length && i<current+5;i++){
+    sixArticle.push(article[i]);
+    }
+  /**Load mỗi lần 6 bài viết  */
+  return sixArticle;
 }
  function getMostLikeArticleByDay(allArticle){
     var arrArticle =new Array(),maxLikeCounts=0;    //arrArticle: Là mảng lưu tất cả những bài có like cao giống nhau.
