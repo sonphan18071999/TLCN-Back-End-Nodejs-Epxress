@@ -13,9 +13,6 @@ const router = express.Router();
 router.post('/add-new-brand',brand_Controller.addNewBrand);
 /**Brand */
 
-
-
-
 /**User account */
 router.post('/add-new-user-account',user_Account_Controller.AddUserAccount)
 router.post('/check-user',user_Account_Controller.checkAccount)
@@ -35,8 +32,9 @@ router.post('/update-article',article_Controller.updateArticleById);
 router.post('/delete-article',article_Controller.deleteArticleById)
 /**Article */
 
-
 /**Comment */
-router.post('/post-comment',comment_Controller.postComment);
+router.post('/get-comment-article',comment_Controller.getAllCommentByIdArticle);
+router.post('/post-comment-parent',comment_Controller.postCommentParent);
+router.post('/post-comment-child',comment_Controller.postCommentChild);
 /**Comment */
 module.exports = router;

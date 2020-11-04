@@ -75,7 +75,7 @@ function pagingArticle (allArticle,current) {
   });
   /**Chọn ra danh sách những bài viết ngày hôm nay*/
   /**Load mỗi lần 6 bài viết  */
-  for(var i = current;i<article.length && i<current+5;i++){
+  for(var i = current*6;i<article.length && i<current*6+6;i++){
     sixArticle.push(article[i]);
     }
   /**Load mỗi lần 6 bài viết  */
@@ -96,9 +96,9 @@ function pagingArticle (allArticle,current) {
     //Nếu có, ưu tiên bài viết được up trước
     if(arrArticle.length>=1){
       for(var i = 0;i<arrArticle.length;i++){
-        if(arrArticle[i].postedOn.getDate()<minDay
-        && arrArticle[i].postedOn.getHours()<minHour
-        && arrArticle[i].postedOn.getMinutes()<minMinutes){
+        if(arrArticle[i].postedOn.getDate()<=minDay
+        && arrArticle[i].postedOn.getHours()<=minHour
+        && arrArticle[i].postedOn.getMinutes()<=minMinutes){
           minDay=arrArticle[i].postedOn.getDate();
           minHour=arrArticle[i].postedOn.getHours();
           minMinutes = arrArticle[i].postedOn.getMinutes();

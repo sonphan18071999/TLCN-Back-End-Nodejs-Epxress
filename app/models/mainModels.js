@@ -44,13 +44,9 @@ let articleSchema = new Schema({
   postedOn: { type: Date, default: Date.now() },
   idUser: { type: mongoose.ObjectId },
   AvatarPost: { type: String },
-  comment:[{
-    likesCount:{type:Number},
-    content:{type:String},
-    postedOn:{type:Date,default:Date.now},
-    idUser:{type:mongoose.Schema.ObjectId},
-    idChild:{type:mongoose.Schema.ObjectId},
-    idArticile: {type:mongoose.Schema.ObjectId}
+  subjects:[{
+    name:{type:String},
+    hashtag:[{type:String}]
   }]
 })
 
@@ -59,8 +55,13 @@ let commentSchema = new Schema({
   content:{type:String},
   postedOn:{type:Date,default:Date.now},
   idUser:{type:mongoose.Schema.ObjectId},
-  idChild:{type:mongoose.Schema.ObjectId},
-  idArticile: {type:mongoose.Schema.ObjectId}
+  childComment:[{
+    likesCountChild:{type:Number,default:0},
+    contentChild:{type:String},
+    postedOnChild:{type:Date,default:Date.now},
+    idUserChild:{type:mongoose.Schema.ObjectId},
+  }],
+  idArticle: {type:mongoose.Schema.ObjectId}
 })
 
 var testModels = mongoose.model('Test', TestSchema);
