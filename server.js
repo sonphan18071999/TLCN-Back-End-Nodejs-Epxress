@@ -48,15 +48,12 @@ mongoose.connect('mongodb+srv://sonp:Chikiet1@@clusterblogaccessories.w6uag.gcp.
       socket.on('disconnect', () => {
         console.log('user disconnected');
       });
-      socket.on('typing message',(msg)=>{
-        // io.emit('typing message',msg)
+      socket.on('broadcast',(msg)=>{
+        socket.broadcast.emit("update state comment",msg);
       })
-      socket.on('my message', (msg) => {
-        io.emit('my broadcast', `server: ${msg}`);
-      });
-      socket.on('broadcast',(data)=>{
-        io.emit('broadcast',data);
-      })
+      // socket.broadcast.emit('broadcast',(data)=>{
+
+      // })
     });
   /**Configure socket.io */
   })
