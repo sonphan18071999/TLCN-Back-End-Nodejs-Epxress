@@ -7,8 +7,6 @@ const article_Controller = require('../controllers/articleController');
 const comment_Controller = require('../controllers/commentController');
 const router = express.Router();
 
-
-
 /**Brand */
 router.post('/add-new-brand',brand_Controller.addNewBrand);
 /**Brand */

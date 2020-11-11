@@ -1,6 +1,7 @@
 const express = require('express');
 // set up express app
 const app = express();
+
 // set up port
 const port = 4000;
 const bodyParser=require('body-parser');
@@ -8,14 +9,24 @@ const mongoose=require('mongoose');
 const start = require('./app/routes/mainRoute'); 
 const fileupload = require("express-fileupload");
 var cors = require('cors')
-
+var db = require('./app/models/mainModels')
 // set up dependencies
 app.use(cors())
-app.get('/', (request, respond) => {
-  respond.status(200).json({
-    message: 'Welcome to Project Support',
-  });
+var server = app.listen(port);
+var io = require('socket.io')(server, {
+  cors: {
+    origin: "http://localhost:4200",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Access-Control-Allow-Origin"],
+    credentials: true
+  }
 });
+
+// app.get('/', (request, respond) => {
+//   respond.status(200).json({
+//     message: 'Welcome to Project Support',
+//   });
+// });
 app.use(fileupload({
   useTempFiles:true
 }));
@@ -31,21 +42,47 @@ app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:524
 mongoose.connect('mongodb+srv://sonp:Chikiet1@@clusterblogaccessories.w6uag.gcp.mongodb.net/<BlogAccessories>?retryWrites=true&w=majority', { useNewUrlParser: true,useFindAndModify:false,useCreateIndex:true,useUnifiedTopology: true})
   .then(()=> {
     console.log('Database connected');
+   /**Configure socket.io */
+    io.on('connection', (socket) => {
+      console.log("User connected")
+      socket.on('disconnect', () => {
+        console.log('user disconnected');
+      });
+      socket.on('typing message',(msg)=>{
+        // io.emit('typing message',msg)
+      })
+      socket.on('my message', (msg) => {
+        io.emit('my broadcast', `server: ${msg}`);
+      });
+      socket.on('broadcast',(data)=>{
+        io.emit('broadcast',data);
+      })
+    });
+  /**Configure socket.io */
   })
   .catch((error)=> {
-    console.log('Error connecting to database');
+    console.log('Error connecting to database'+error);
   });
 
 // set up route
+// app.get('/', (req, res) => {
+//   res.status(200).json({
+//     message: 'Welcome to Project with Nodejs Express and MongoDB',
+//   });
+// });
+
+
 app.get('/', (req, res) => {
-  res.status(200).json({
-    message: 'Welcome to Project with Nodejs Express and MongoDB',
-  });
-});
-app.listen(port, () => {
-  console.log(`Our server is running on port ${port}`);
+  res.sendFile(__dirname + '/index.html');
 });
 
+// app.listen(port, () => {
+//   console.log(`Our server is running on port ${port}`);
+// });
+
+
 //Use api
+
 app.use('/api',start);
+
 

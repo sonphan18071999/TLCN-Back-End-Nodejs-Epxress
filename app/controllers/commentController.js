@@ -17,7 +17,7 @@ exports.getAllCommentByIdArticle = async (req,res,next)=>{
     })
 }
 
-// Controller post comment parent.
+/**Tạo mới một comment trong bài viết. */
 exports.postCommentParent = async (req,res,next)=>{
     var comment = req.body;
     await db.commentModels.create(comment,(er,ok)=>{
@@ -35,21 +35,36 @@ exports.postCommentParent = async (req,res,next)=>{
         }
     })
 }
-// POst comment child. Comment ma thua ke tu comment lon.
+/** POst comment con. Nhũng comment phía dưới một comment lớn. */
 exports.postCommentChild = async(req,res,next)=>{
     var comment = req.body.childComment;
-    await db.commentModels.findOneAndUpdate({_id:req.body.idParent},{$push:{childComment:comment}},(er,ok)=>{
-        if (er) {
-            return res.status(500).json({
-                "Message": "Can't post comment child to Blog",
-                "Error": er
-            })
-        }
-        if (ok) {
-            return res.status(200).json({
-                "Message": "Post comment child to Blog Successfully",
-                "Comment": ok
-            })
-        }
-    })
+    //Day comment con vao mang da co san cua comment cha.
+    if(comment.contentChild==""){
+
+    }else{
+        await db.commentModels.findOne({_id:req.body.idParent},(er,ok)=>{ 
+            if (er) {
+                return res.status(500).json({
+                    "Message": "Can't post comment child to Blog",
+                    "Error": er
+                })
+            }
+            if (ok) {
+                ok.childComment.push(comment);
+                ok.save().then((result) => {
+                return res.status(200).json({
+                    "Message": "Post comment successfully",
+                    "Success": result
+                })
+                }).catch((err) => {
+                    return res.status(200).json({
+                        "Message": "Post comment successfully",
+                        "Success": err
+                    })
+                });
+               
+            }
+        })
+    }
+    
 }

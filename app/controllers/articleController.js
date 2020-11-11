@@ -11,9 +11,8 @@ cloudinary.config({
   api_secret:"q-rZlX2PIYFPuLOmPlrZso1UYx4"
 })
 
+/**Code tao bai article moi trong he thong */
 exports.addNewArticle = async function (req, res, next) {
-   
-  
   var article = new db.articleModels();
   article = req.body;
   // 1. Convert link image main Image send to cloudiary make it online
@@ -47,12 +46,12 @@ exports.addNewArticle = async function (req, res, next) {
   })
 }
 
-exports.getAllArticle = async function (req, res, next) {
-  const allArticle = await db.articleModels.find();
-  /**Lấy 1 bài viết có lượt like cao nhất trong ngày. 
+
+ /**Lấy 1 bài viết có lượt like cao nhất trong ngày. 
    * Và 12 bài viết theo ngày.
    * Nếu bài viết trong ngày không đủ sẽ lấy bài viết của các ngày sau đó. */
-  
+exports.getAllArticle = async function (req, res, next) {
+  const allArticle = await db.articleModels.find();
   /**Đếm số like cao nhất trong ngày */
   // console.log(getDateTime());
   //Format ngày và giờ 30T08:35:55. Trước T là ngày, sau là giờ hiện tại.
