@@ -24,7 +24,7 @@ let AccountSchema = new Schema({
   identification: { type: String, default: null },
   userAvatar:{type:String,default:null},
   typeAccount: {type: String, enum : ['normal','admin','facebook','google'], default: 'normal'},
-  isNewAccount:{type:Boolean,default:false}
+  isNewAccount:{type:Boolean,default:true}
 })
 let imageSchema = new Schema ({
   nameImage:{type:String},
@@ -55,18 +55,20 @@ let commentSchema = new Schema({
   content:{type:String},
   postedOn:{type:Date,default:Date.now},
   idUser:{type:mongoose.Schema.ObjectId},
+  nameUser:{type:String},
   childComment:[{
     likesCountChild:{type:Number,default:0},
     contentChild:{type:String},
     postedOnChild:{type:Date,default:Date.now},
     idUserChild:{type:mongoose.Schema.ObjectId},
+    nameUserChild:{type:String}
   }],
   idArticle: {type:mongoose.Schema.ObjectId}
 })
 
 var testModels = mongoose.model('Test', TestSchema);
 var brandModels = mongoose.model('Brand',BrandSchema);
-var userAccountModels = mongoose.model('User Account', AccountSchema);
+var userAccountModels = mongoose.model('UserAccount', AccountSchema);
 var imageModels = mongoose.model('Image',imageSchema);
 var articleModels = mongoose.model('Articles',articleSchema);
 var commentModels = mongoose.model('Comments',commentSchema);

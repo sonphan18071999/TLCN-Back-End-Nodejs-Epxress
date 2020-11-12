@@ -5,6 +5,7 @@ const user_Account_Controller = require('../controllers/userAccountController')
 const image_Controller = require('../controllers/imageController');
 const article_Controller = require('../controllers/articleController');
 const comment_Controller = require('../controllers/commentController');
+const { userAccountModels } = require('../models/mainModels');
 const router = express.Router();
 
 /**Brand */
@@ -12,8 +13,11 @@ router.post('/add-new-brand',brand_Controller.addNewBrand);
 /**Brand */
 
 /**User account */
+router.get('/get-all-user',user_Account_Controller.getAllUser);
 router.post('/add-new-user-account',user_Account_Controller.AddUserAccount)
 router.post('/check-user',user_Account_Controller.checkAccount)
+router.post('/get-user-information',user_Account_Controller.findUserById);
+
 /**User account */
 
 /**Image */

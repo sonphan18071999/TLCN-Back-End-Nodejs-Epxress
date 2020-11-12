@@ -1,3 +1,4 @@
+const { Mongoose } = require('mongoose');
 const db = require('../models/mainModels');
 exports.AddUserAccount = async function (req, res, next) {
    await db.userAccountModels.findOne({email:req.body.email},(er,ok)=>{
@@ -53,7 +54,7 @@ exports.checkAccount = async function(req,res,next){
       const userCreate = new db.userAccountModels({
         email: req.body.email,
         password: "ramdomize",
-        name: req.body.name,
+        name: req.body.userName,
         phone: "00000000",
         typeAccount: "facebook"
       })
@@ -85,4 +86,28 @@ exports.checkAccount = async function(req,res,next){
       })
     }
   }
+}
+exports.findUserById = async (req,res,next)=> {
+  var idUser = req.body.idUser;
+  await db.userAccountModels.findOne({_id:idUser},(er,ok)=>{
+    if(er){
+      return res.status(500).json(
+        {"Message":er}
+      )
+    }
+    if(ok){
+      return res.status(200).json({
+        "Message":"Find user by id",
+        "UserInfo":ok
+      })
+    }
+  })
+}
+exports.getAllUser = async (req,res,next)=>{
+  await db.userAccountModels.find((er,ok)=>{
+    return res.status(200).json({
+      "message":"Get all the user successfully",
+      "AllUser":ok
+    })
+  })
 }

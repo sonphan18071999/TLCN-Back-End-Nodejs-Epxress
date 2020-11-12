@@ -2,19 +2,70 @@ const db = require('../models/mainModels');
 const { Schema, mongo, isValidObjectId, Mongoose } = require('mongoose');
 
 exports.getAllCommentByIdArticle = async (req,res,next)=>{
-   await db.commentModels.find({idArticle:mongo.ObjectID(req.body.idArticle)},(er,ok)=>{
-        if(er){
-            return res.status(500).json({
-                "Message":"Comment doesnt exist"
-            })
-        }
-        if(ok){
-            return res.status(200).json({
-                "Message":"Get all comment successfully",
-                "Comment":ok
-            })
-        }
-    })
+    // var a = await db.commentModels.aggregate(
+    //     [
+    //         {
+    //             $lookup: {
+    //                 from: "useraccounts",
+    //                 localField: "idUser",
+    //                 foreignField: "_id",
+    //                 as: "user_information"
+    //             }
+    //         },
+    //         // {
+    //         //     $group:{
+    //         //         _id:{id:"$_id"},
+    //         //         "content":{$content:"$content"},
+    //         //         userInfo:{$addToSet:"$user_information"}
+    //         //     }
+    //         // }
+    //         // ,
+    //         // {
+    //         //     $unwind:"$user_information"
+    //         // }
+    //         // ,{
+    //         //     $lookup: {
+    //         //         from: "user accounts",
+    //         //         localField: "childComment.idUserChild",
+    //         //         foreignField: "_id",
+    //         //         as: "user_information_child"
+    //         //     }
+    //         // },
+    //         // {
+    //         //     $unwind:"$user_information_child"
+    //         // }
+    //     ]
+    // )
+    // if(a){
+    //     return res.status(200).json({
+    //         "message":"successfully get all comment",
+    //         "Comment":a
+    //     })
+    // }
+
+    // var a = await db.commentModels.aggregate(
+    //     [
+    //         {
+    //             $lookup: {
+    //                 from: "useraccounts.childComment",
+    //                 localField: "idUserChild",
+    //                 foreignField: "_id",
+    //                 as: "user_information"
+    //             }
+    //         }
+    //     ]
+    // )
+    // return res.status(200).json({
+    //     "message":"get data successfully",
+    //     "comment":a
+    // })
+    var a = await db.commentModels.find({idArticle:req.body.idArticle})
+    if(a){
+        return res.status(200).json({
+            "Message":"Get all comment succesfully",
+            "Comment":a
+        })
+    }
 }
 
 /**Tạo mới một comment trong bài viết. */
@@ -62,7 +113,6 @@ exports.postCommentChild = async(req,res,next)=>{
                         "Success": err
                     })
                 });
-               
             }
         })
     }

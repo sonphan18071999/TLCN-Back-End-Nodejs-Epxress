@@ -44,16 +44,13 @@ mongoose.connect('mongodb+srv://sonp:Chikiet1@@clusterblogaccessories.w6uag.gcp.
     console.log('Database connected');
    /**Configure socket.io */
     io.on('connection', (socket) => {
-      console.log("User connected")
       socket.on('disconnect', () => {
         console.log('user disconnected');
       });
       socket.on('broadcast',(msg)=>{
         socket.broadcast.emit("update state comment",msg);
       })
-      // socket.broadcast.emit('broadcast',(data)=>{
-
-      // })
+      
     });
   /**Configure socket.io */
   })
