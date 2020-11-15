@@ -91,7 +91,6 @@ exports.postCommentChild = async(req,res,next)=>{
     var comment = req.body.childComment;
     //Day comment con vao mang da co san cua comment cha.
     if(comment.contentChild==""){
-
     }else{
         await db.commentModels.findOne({_id:req.body.idParent},(er,ok)=>{ 
             if (er) {

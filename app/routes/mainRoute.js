@@ -5,7 +5,9 @@ const user_Account_Controller = require('../controllers/userAccountController')
 const image_Controller = require('../controllers/imageController');
 const article_Controller = require('../controllers/articleController');
 const comment_Controller = require('../controllers/commentController');
+const saved_article_Controller = require('../controllers/savedArticleController.js')
 const { userAccountModels } = require('../models/mainModels');
+
 const router = express.Router();
 
 /**Brand */
@@ -39,4 +41,12 @@ router.post('/get-comment-article',comment_Controller.getAllCommentByIdArticle);
 router.post('/post-comment-parent',comment_Controller.postCommentParent);
 router.post('/post-comment-child',comment_Controller.postCommentChild);
 /**Comment */
+
+
+/**Saved Article */
+router.post('/save-article',saved_article_Controller.SaveArticle);
+router.post('/check-save-status-article',saved_article_Controller.checkSaveArticle);
+
+/**Saved Article */
+
 module.exports = router;

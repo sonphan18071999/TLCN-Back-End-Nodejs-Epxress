@@ -66,18 +66,27 @@ let commentSchema = new Schema({
   idArticle: {type:mongoose.Schema.ObjectId}
 })
 
+
+let savedArticleSchema = new Schema({
+  idUser:String,
+  allArticleSaved:[{
+    idArticle:String
+  }]
+})
+
 var testModels = mongoose.model('Test', TestSchema);
 var brandModels = mongoose.model('Brand',BrandSchema);
 var userAccountModels = mongoose.model('UserAccount', AccountSchema);
 var imageModels = mongoose.model('Image',imageSchema);
 var articleModels = mongoose.model('Articles',articleSchema);
 var commentModels = mongoose.model('Comments',commentSchema);
-
+var savedModels = mongoose.model('SavedArticle',savedArticleSchema);
 module.exports = {
   testModels:testModels,
   brandModels:brandModels,
   userAccountModels:userAccountModels,
   imageModels:imageModels,
   articleModels:articleModels,
-  commentModels:commentModels
+  commentModels:commentModels,
+  savedModels:savedModels
 };
