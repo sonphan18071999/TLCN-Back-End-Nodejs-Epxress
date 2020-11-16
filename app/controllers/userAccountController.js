@@ -1,36 +1,23 @@
 const { Mongoose } = require('mongoose');
 const db = require('../models/mainModels');
 exports.AddUserAccount = async function (req, res, next) {
-   await db.userAccountModels.findOne({email:req.body.email},(er,ok)=>{
-    if(er){
-      res.status(500).json({
-        "Message":"Fail to create account"
-      })
-    }
-    if(ok){
-      res.status(500).json({
-        "Message":"Fail to create account"
+  var checkEmail =  await db.userAccountModels.findOne({email:req.body.email});
+  if(checkEmail){
+    return res.status(500).json({"Message":"Email already used"});
+  }else{
+    var user = await db.userAccountModels.create(req.body);
+    if(user){
+      return res.status(200).json({
+        "Message":"Create user successfully",
+        "User":user
       })
     }else{
-      const cpu = new db.userAccountModels({
-        email: req.body.email,
-        password: req.body.password,
-        name: req.body.name,
-        phone: req.body.phone,
-        typeAccount: req.body.typeAccount
-      })
-      cpu.save(function (errr) {
-        if (errr) {
-          res.status(500).json("Failed to account" +errr);
-        }
-        else
-          res.status(200).json({
-            message: "Success to create new account",
-            cpu: cpu
-          });
+      return res.status(200).json({
+        "Message":"Cant create new user",
+        "Error":user
       })
     }
-    })
+  }
 }
 exports.checkAccount = async function(req,res,next){
   //1. Nếu kiểm tra user đăng nhập bằng facebook thì sẽ check lần đầu và mail.

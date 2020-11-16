@@ -15,9 +15,7 @@ let BrandSchema = new Schema({
 let AccountSchema = new Schema({
   email: { type: String, required: true, default: null },
   password: { type: String, required: true,min:6 },
-  sessionId: { type: String, default: null },
   otp: { type: String, default: null },
-  timeOut: { type: Number, default: 3000 },
   reputation :{type:Number,default:0},
   name: { type: String, required: true, default: null },
   phone: { type: String, required: true, default: null },
@@ -26,6 +24,8 @@ let AccountSchema = new Schema({
   typeAccount: {type: String, enum : ['normal','admin','facebook','google'], default: 'normal'},
   isNewAccount:{type:Boolean,default:true}
 })
+
+
 let imageSchema = new Schema ({
   nameImage:{type:String},
   img: {type: String }
@@ -74,6 +74,16 @@ let savedArticleSchema = new Schema({
   }]
 })
 
+let announceArticleSchema = new Schema({
+  idUser: { type: mongoose.Schema.ObjectId },
+  TypeAnnounce: {
+    type: String,
+    enum: ["comment", "reply comment", "like", "report", "follow"],
+    default: "comment"
+  }
+})
+
+
 var testModels = mongoose.model('Test', TestSchema);
 var brandModels = mongoose.model('Brand',BrandSchema);
 var userAccountModels = mongoose.model('UserAccount', AccountSchema);
@@ -81,6 +91,8 @@ var imageModels = mongoose.model('Image',imageSchema);
 var articleModels = mongoose.model('Articles',articleSchema);
 var commentModels = mongoose.model('Comments',commentSchema);
 var savedModels = mongoose.model('SavedArticle',savedArticleSchema);
+var announceModels = mongoose.model('Announcement',announceArticleSchema);
+
 module.exports = {
   testModels:testModels,
   brandModels:brandModels,
@@ -88,5 +100,6 @@ module.exports = {
   imageModels:imageModels,
   articleModels:articleModels,
   commentModels:commentModels,
-  savedModels:savedModels
+  savedModels:savedModels,
+  announceModels:announceModels
 };
