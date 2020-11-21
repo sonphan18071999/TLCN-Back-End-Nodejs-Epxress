@@ -3,6 +3,7 @@ const db = require('../models/mainModels');
 const upload = require("../middleware/upload");
 const { Schema, mongo, isValidObjectId, Mongoose } = require('mongoose');
 const {ObjectId} = require('mongodb'); // or ObjectID 
+const hash_tag_Controller = require('./hashtagController')
 
 const cloudinary = require('cloudinary');
 cloudinary.config({
@@ -14,36 +15,36 @@ cloudinary.config({
 /**Code tao bai article moi trong he thong */
 exports.addNewArticle = async function (req, res, next) {
   var article = new db.articleModels();
-  article = req.body;
-  // 1. Convert link image main Image send to cloudiary make it online
-  await cloudinary.uploader.upload(article.AvatarPost, function (err, result) {
-      //set URL for Avatar Post
-      article.AvatarPost=err.url;
-  })
+  // article = req.body;
+  // // 1. Convert link image main Image send to cloudiary make it online
+  // await cloudinary.uploader.upload(article.AvatarPost, function (err, result) {
+  //     //set URL for Avatar Post
+  //     article.AvatarPost=err.url;
+  // })
 
-   //2. Convert link images send to cloudiary and make it online
-  for (var i = 0; i < article.content.length; i++) {
-    await cloudinary.uploader.upload(article.content[i].images,
-      function (err, result) {
-      //Lấy URL trả về từ Cloudiary
-        article.content[i].images = err.url.toString();
+  //  //2. Convert link images send to cloudiary and make it online
+  // for (var i = 0; i < article.content.length; i++) {
+  //   await cloudinary.uploader.upload(article.content[i].images,
+  //     function (err, result) {
+  //     //Lấy URL trả về từ Cloudiary
+  //       article.content[i].images = err.url.toString();
+  //   })
+  // }
+  // 3. Insert article to database type JSON - Raw
+  var abc = await db.articleModels.create(article);
+  if (abc) {
+  //4. Thêm hashTag vào table.
+  var hashTag = {
+    idArticle:abc._id,
+    hashTag:req.body.hashTag
+  }
+  hash_tag_Controller.createHashTag(hashTag,res,next);
+  return res.status(200).json({
+      "Message":"Post article successfully",
+      "article":abc
     })
-  } 
-
-  //3. Insert article to database type JSON - Raw
-  await db.articleModels.insertMany(article, function (err, ok) {
-    if (err) {
-      res.status(500).json(
-        { "message": "Cant insert article" }
-      )
-    }
-    if (ok) {
-      return res.status(200).json({
-        "Message":"Post article successfully",
-        "article":ok
-      })
-    }
-  })
+  }
+  
 }
 
 

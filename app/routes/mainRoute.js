@@ -6,7 +6,7 @@ const image_Controller = require('../controllers/imageController');
 const article_Controller = require('../controllers/articleController');
 const comment_Controller = require('../controllers/commentController');
 const saved_article_Controller = require('../controllers/savedArticleController.js')
-const { userAccountModels } = require('../models/mainModels');
+const hash_tag_Controller = require('../controllers/hashtagController')
 
 const router = express.Router();
 
@@ -46,7 +46,11 @@ router.post('/post-comment-child',comment_Controller.postCommentChild);
 /**Saved Article */
 router.post('/save-article',saved_article_Controller.SaveArticle);
 router.post('/check-save-status-article',saved_article_Controller.checkSaveArticle);
-
 /**Saved Article */
+
+
+/**Save HashTag */
+router.post('/create-hashtag',hash_tag_Controller.createHashTag);
+/**Save HashTag */
 
 module.exports = router;

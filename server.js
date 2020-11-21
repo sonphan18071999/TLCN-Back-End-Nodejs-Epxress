@@ -50,7 +50,6 @@ mongoose.connect('mongodb+srv://sonp:Chikiet1@@clusterblogaccessories.w6uag.gcp.
       socket.on('broadcast',(msg)=>{
         socket.broadcast.emit("update state comment",msg);
       })
-      
     });
   /**Configure socket.io */
   })

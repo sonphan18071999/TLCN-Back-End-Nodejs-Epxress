@@ -43,11 +43,7 @@ let articleSchema = new Schema({
   likesCount: { type: Number, default: 0 },
   postedOn: { type: Date, default: Date.now() },
   idUser: { type: mongoose.ObjectId },
-  AvatarPost: { type: String },
-  subjects:[{
-    name:{type:String},
-    hashtag:[{type:String}]
-  }]
+  AvatarPost: { type: String }
 })
 
 let commentSchema = new Schema({
@@ -83,6 +79,12 @@ let announceArticleSchema = new Schema({
   }
 })
 
+let hashTagSchema = new Schema({
+  name:String,
+  article:[{
+    type:mongoose.Schema.ObjectId
+  }]
+})
 
 var testModels = mongoose.model('Test', TestSchema);
 var brandModels = mongoose.model('Brand',BrandSchema);
@@ -92,6 +94,7 @@ var articleModels = mongoose.model('Articles',articleSchema);
 var commentModels = mongoose.model('Comments',commentSchema);
 var savedModels = mongoose.model('SavedArticle',savedArticleSchema);
 var announceModels = mongoose.model('Announcement',announceArticleSchema);
+var hashTagModels = mongoose.model('HashTag',hashTagSchema);
 
 module.exports = {
   testModels:testModels,
@@ -101,5 +104,6 @@ module.exports = {
   articleModels:articleModels,
   commentModels:commentModels,
   savedModels:savedModels,
-  announceModels:announceModels
+  announceModels:announceModels,
+  hashTagModels:hashTagModels
 };
