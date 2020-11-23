@@ -8,7 +8,19 @@ exports.createHashTag = async (req,res,next)=>{
             a.save();
         }else{
             //Chưa tồn tại hashTag đó
-            const b = await db.hashTagModels.create({name:e.name.toString().trim()})
+            const b = await db.hashTagModels.create({
+                name:e.name.toString().trim(),
+                article:req.idArticle
+            })
         }
     }
+}
+
+exports.findHashTag = async (req,res,next)=>{
+
+}
+exports.getAllHashTagByArticleId = async(req,res,next)=>{
+    var idArticle = req;
+    var allHashTag = await db.hashTagModels.find({article:idArticle})
+    return allHashTag;
 }

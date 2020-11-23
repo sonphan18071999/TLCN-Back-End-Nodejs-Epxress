@@ -15,21 +15,24 @@ cloudinary.config({
 /**Code tao bai article moi trong he thong */
 exports.addNewArticle = async function (req, res, next) {
   var article = new db.articleModels();
-  // article = req.body;
-  // // 1. Convert link image main Image send to cloudiary make it online
-  // await cloudinary.uploader.upload(article.AvatarPost, function (err, result) {
-  //     //set URL for Avatar Post
-  //     article.AvatarPost=err.url;
-  // })
-
-  //  //2. Convert link images send to cloudiary and make it online
-  // for (var i = 0; i < article.content.length; i++) {
-  //   await cloudinary.uploader.upload(article.content[i].images,
-  //     function (err, result) {
-  //     //Lấy URL trả về từ Cloudiary
-  //       article.content[i].images = err.url.toString();
-  //   })
-  // }
+  article = req.body;
+  // 1. Convert link image main Image send to cloudiary make it online
+  if(article.AvatarPost!=null){
+      await cloudinary.uploader.upload(article.AvatarPost, function (err, result) {
+        //set URL for Avatar Post
+        article.AvatarPost=err.url;
+    })
+  }
+   //2. Convert link images send to cloudiary and make it online
+  for (var i = 0; i < article.content.length; i++) {
+    if (article.content[i].images!=null) {
+      await cloudinary.uploader.upload(article.content[i].images,
+        function (err, result) {
+          //Lấy URL trả về từ Cloudiary
+          article.content[i].images = err.url.toString();
+        })
+    }
+  }
   // 3. Insert article to database type JSON - Raw
   var abc = await db.articleModels.create(article);
   if (abc) {
@@ -137,10 +140,40 @@ function getDateTime() {
   return day + "T" + hour + ":" + min + ":" + sec;
 }
 exports.getArticleById = async function (req, res, next) {
-  await db.articleModels.findOne({ _id: req.query.id },(err,ok)=>{
-  return ok ? res.status(200).json({"Aricle":ok}) : 
-              res.status(500).json({"Cant retrive article ":err})
-  })
+  // await db.articleModels.findOne({ _id: req.query.id },(err,ok)=>{
+  // return ok ? res.status(200).json({"Aricle":ok}) : 
+  //             res.status(500).json({"Cant retrive article ":err})
+  // })
+  var article = await db.articleModels.findOne({ _id: req.query.id });
+  var info = await db.userAccountModels.findOne({ _id: article.idUser });
+  var hashTag = await hash_tag_Controller.getAllHashTagByArticleId(article._id,res,next);
+  var relatedArticle = await getArticleWithByHashTag(hashTag,res,next);
+  if (article != null && info != null ) {
+    return res.status(200).json(
+      {
+        "Aricle": article,
+        "Author": info,
+        "hashTag":hashTag,
+        "RelatedArticle":relatedArticle
+      })
+  } else {
+    return res.status(500).json({ "Message": "Empty" })
+  }
+}
+
+getArticleWithByHashTag = async function (req,res,next){
+  var arrayItem = new Array();
+  var count = 0;
+  for(var item of req){
+    for (const idArticle of item.article){
+      if(count<6){
+        const a = await db.articleModels.findOne({_id:idArticle});
+        arrayItem.push(a);
+        count++;
+      }
+    }
+  }
+  return arrayItem;
 }
 
 exports.updateArticleById = async function (req,res,next) {
@@ -180,3 +213,8 @@ exports.deleteArticleById = async (req,res,next)=> {
     }
   })
 }
+
+exports.likeArticle = async(req,res,next)=>{
+  
+}
+
