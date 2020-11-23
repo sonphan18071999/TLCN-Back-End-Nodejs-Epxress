@@ -34,6 +34,7 @@ router.post('/get-all-article',article_Controller.getAllArticle);
 router.get('/get-article',article_Controller.getArticleById);
 router.post('/update-article',article_Controller.updateArticleById);
 router.post('/delete-article',article_Controller.deleteArticleById)
+router.get('/get-all-article-posted-by-user',article_Controller.getAllArticleByIdUser)
 /**Article */
 
 /**Comment */

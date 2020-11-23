@@ -162,18 +162,25 @@ exports.getArticleById = async function (req, res, next) {
 }
 
 getArticleWithByHashTag = async function (req,res,next){
-  var arrayItem = new Array();
-  var count = 0;
+  var arrayIdArticle = new Array();
+  var newArrayIdArticle = new Array();
+  var allRelatedArticle = new Array();
+  //1. Đưa tất cả những id article có những hashtag trung nhau vào một array
   for(var item of req){
-    for (const idArticle of item.article){
-      if(count<6){
-        const a = await db.articleModels.findOne({_id:idArticle});
-        arrayItem.push(a);
-        count++;
-      }
+    for (var idArticle of item.article){
+      arrayIdArticle.push(idArticle);
     }
   }
-  return arrayItem;
+  // console.log(arrayIdArticle.length)
+  //2. Loại bỏ những id article trung nhau.
+  let uniq = {};
+  newArrayIdArticle = arrayIdArticle.filter(obj => !uniq[obj] && (uniq[obj] = true))
+  //3.Từ mảng article mới đó trả về những nội dung trong article.
+  for(var item of newArrayIdArticle){
+    let a = await db.articleModels.findOne({_id:item})
+    allRelatedArticle.push(a);
+  }
+  return allRelatedArticle;
 }
 
 exports.updateArticleById = async function (req,res,next) {
@@ -215,6 +222,12 @@ exports.deleteArticleById = async (req,res,next)=> {
 }
 
 exports.likeArticle = async(req,res,next)=>{
-  
+}
+exports.getAllArticleByIdUser = async(req,res,next)=>{
+  var article = await db.articleModels.find({idUser:req.query.id});
+  return res.status(200).json({
+    "Message" : "All article",
+    "article" : article
+  })  
 }
 
