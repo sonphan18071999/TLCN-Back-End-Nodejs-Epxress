@@ -1,5 +1,6 @@
 const db = require('../models/mainModels')
 exports.createHashTag = async (req,res,next)=>{
+    req.hashTag.splice(0,1);
     for (const e of req.hashTag){
         const a = await db.hashTagModels.findOne({name:e.name.toString().trim()});
         if(a){

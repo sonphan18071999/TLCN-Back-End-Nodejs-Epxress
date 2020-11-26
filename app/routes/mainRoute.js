@@ -7,7 +7,7 @@ const article_Controller = require('../controllers/articleController');
 const comment_Controller = require('../controllers/commentController');
 const saved_article_Controller = require('../controllers/savedArticleController.js')
 const hash_tag_Controller = require('../controllers/hashtagController')
-
+const report_article_Controller = require('../controllers/articleBeingReportController')
 const router = express.Router();
 
 /**Brand */
@@ -47,6 +47,7 @@ router.post('/post-comment-child',comment_Controller.postCommentChild);
 /**Saved Article */
 router.post('/save-article',saved_article_Controller.SaveArticle);
 router.post('/check-save-status-article',saved_article_Controller.checkSaveArticle);
+router.post('/get-saved-article-by-user',saved_article_Controller.getSavedArticleByIdUser);
 /**Saved Article */
 
 
@@ -54,4 +55,8 @@ router.post('/check-save-status-article',saved_article_Controller.checkSaveArtic
 router.post('/create-hashtag',hash_tag_Controller.createHashTag);
 /**Save HashTag */
 
+
+/**Report article */
+router.post('/create-report',report_article_Controller.createReports)
+/**Report article */
 module.exports = router;

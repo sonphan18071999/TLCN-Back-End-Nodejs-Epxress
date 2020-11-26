@@ -86,6 +86,14 @@ let hashTagSchema = new Schema({
   }]
 })
 
+let ArticleBeingReportSchema = new Schema({
+  idArticle:{type:String},
+  userReport:[{
+    idUser:{type:mongoose.Schema.ObjectId},
+    Reason:{type:String}
+  }]
+})
+
 var testModels = mongoose.model('Test', TestSchema);
 var brandModels = mongoose.model('Brand',BrandSchema);
 var userAccountModels = mongoose.model('UserAccount', AccountSchema);
@@ -95,7 +103,7 @@ var commentModels = mongoose.model('Comments',commentSchema);
 var savedModels = mongoose.model('SavedArticle',savedArticleSchema);
 var announceModels = mongoose.model('Announcement',announceArticleSchema);
 var hashTagModels = mongoose.model('HashTag',hashTagSchema);
-
+var articleBeingReportModels = mongoose.model('ArticleBeingReport',ArticleBeingReportSchema);
 module.exports = {
   testModels:testModels,
   brandModels:brandModels,
@@ -105,5 +113,6 @@ module.exports = {
   commentModels:commentModels,
   savedModels:savedModels,
   announceModels:announceModels,
-  hashTagModels:hashTagModels
+  hashTagModels:hashTagModels,
+  articleBeingReportModels:articleBeingReportModels
 };

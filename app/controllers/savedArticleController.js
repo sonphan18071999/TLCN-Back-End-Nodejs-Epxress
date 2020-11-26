@@ -76,3 +76,39 @@ exports.checkSaveArticle = async (req,res,next)=>{
         }
     }
 }
+exports.getSavedArticleByIdUser = async(req,res,next)=>{
+    /**Sample */
+    
+    // "idUser":"5fac4788798f1a29785aca4a",
+    // "count":"12"
+    /**Sample */
+    // 1. Lấy tất cả những id article đã lưu
+    var allSavedIdArtile = await db.savedModels.findOne({idUser:req.body.idUser});
+    // 2. Từ những IdArticle đó lấy tất cả những bài viết. 
+    var arrSaveArticle = new Array();
+    
+    if(!allSavedIdArtile){      //Nếu không có article nào đã lưu thì return.
+        return res.status(500).json({
+            "Message":"User haven't save any article yet"
+        })
+    }
+    var count=0;
+    // Nếu tìm được những article đã lưu.
+    for(var item of allSavedIdArtile.allArticleSaved){
+            if((count>req.body.count)){ //Đã đạt số lượng bài viết yêu cầu
+                // Trả về số article 
+                return res.status(200).json({
+                    "Message":"All saved article",
+                    "SavedArticle":arrSaveArticle
+                })
+            }
+            var a = await db.articleModels.findOne({_id:item.idArticle});
+            arrSaveArticle.push(a);
+            count++;
+    }
+    //Nếu số bài viết đã lưu ít hơn số lượng yêu cầu thì sẽ trả về số bài viết đang có đó.
+    return res.status(200).json({
+        "Message":"All saved article",
+        "SavedArticle":arrSaveArticle
+    })
+}
