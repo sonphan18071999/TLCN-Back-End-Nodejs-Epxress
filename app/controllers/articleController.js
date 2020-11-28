@@ -67,15 +67,27 @@ exports.getAllArticle = async function (req, res, next) {
   }); 
 }
 function pagingArticle (allArticle,current) {
+  /**Chọn ra danh sách những bài viết ngày hôm nay và những bài viết có trong hệ thống.*/
   var article = new Array(); 
   var sixArticle = new Array(); 
   var currentDay = new Date();
-  /**Chọn ra danh sách những bài viết ngày hôm nay*/
+  var articleAfter = new Array();   //Những article không phải ngày hôm nay
+  /**Nếu ngày hiện tại không có bài viết nào. Thì sẽ lấy những bài viết ngày trước đó.*/
   allArticle.forEach(element => {
-    if(element.postedOn.getDate()==currentDay.getDate()){
+    if (element.postedOn.getDate() == currentDay.getDate() &&
+      element.postedOn.getMonth() == currentDay.getMonth() &&
+      element.postedOn.getFullYear() == currentDay.getFullYear()) {
       article.push(element);
-    }
-  });
+      }else{
+        articleAfter.push(element);
+      }
+    });
+
+  for(var i=0;i<articleAfter.length && article.length<40;i++){
+    article.push(articleAfter[i]);
+  }
+  /**Nếu ngày hiện tại không có bài viết nào. Thì sẽ lấy những bài viết ngày trước đó.*/
+
   /**Chọn ra danh sách những bài viết ngày hôm nay*/
   /**Load mỗi lần 6 bài viết  */
   for(var i = current*6;i<article.length && i<current*6+6;i++){
