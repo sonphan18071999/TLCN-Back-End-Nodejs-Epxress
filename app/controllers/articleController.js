@@ -78,12 +78,11 @@ function pagingArticle (allArticle,current) {
       element.postedOn.getMonth() == currentDay.getMonth() &&
       element.postedOn.getFullYear() == currentDay.getFullYear()) {
       article.push(element);
-      }else{
+      }else if(articleAfter.length<40){
         articleAfter.push(element);
       }
-    });
-
-  for(var i=0;i<articleAfter.length && article.length<40;i++){
+  });
+  for(var i=articleAfter.length-1;i>0;i--){
     article.push(articleAfter[i]);
   }
   /**Nếu ngày hiện tại không có bài viết nào. Thì sẽ lấy những bài viết ngày trước đó.*/
