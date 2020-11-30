@@ -25,7 +25,6 @@ router.post('/get-user-information',user_Account_Controller.findUserById);
 /**Image */
 router.post('/post-image',image_Controller.addNewImage);
 router.get('/get-all-image',image_Controller.getAllImage);
-
 /**Image */
 
 /**Article */

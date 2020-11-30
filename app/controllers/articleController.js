@@ -55,7 +55,7 @@ exports.addNewArticle = async function (req, res, next) {
    * Và 12 bài viết theo ngày.
    * Nếu bài viết trong ngày không đủ sẽ lấy bài viết của các ngày sau đó. */
 exports.getAllArticle = async function (req, res, next) {
-  const allArticle = await db.articleModels.find();
+  var allArticle = await db.articleModels.find();
   /**Đếm số like cao nhất trong ngày */
   // console.log(getDateTime());
   //Format ngày và giờ 30T08:35:55. Trước T là ngày, sau là giờ hiện tại.
@@ -63,10 +63,10 @@ exports.getAllArticle = async function (req, res, next) {
   return  res.status(200).json({
     message: "The most liked article of the day.",
     "PopularArticle":getMostLikeArticleByDay(allArticle),
-    "Article":pagingArticle(allArticle,req.body.order)
+    "Article": await pagingArticle(allArticle,req.body.order)
   }); 
 }
-function pagingArticle (allArticle,current) {
+async function pagingArticle (allArticle,current) {
   /**Chọn ra danh sách những bài viết ngày hôm nay và những bài viết có trong hệ thống.*/
   var article = new Array(); 
   var sixArticle = new Array(); 
@@ -86,15 +86,29 @@ function pagingArticle (allArticle,current) {
     article.push(articleAfter[i]);
   }
   /**Nếu ngày hiện tại không có bài viết nào. Thì sẽ lấy những bài viết ngày trước đó.*/
-
   /**Chọn ra danh sách những bài viết ngày hôm nay*/
   /**Load mỗi lần 6 bài viết  */
-  for(var i = current*6;i<article.length && i<current*6+6;i++){
-    sixArticle.push(article[i]);
+  var testArr = new Array();
+  for (var i = current*6; i < article.length && i < current*6 + 6; i++) {
+    var a = await db.userAccountModels.findOne({ _id: article[i].idUser })
+    if (a) {
+      testArr.push(a.name);
     }
+    sixArticle.push(article[i]);
+
+  }
+  var arr = [];
+  for(var i = 0; i < 6; i++){
+    var article2 = {
+      Article: sixArticle[i],
+      Author: testArr[i]
+    }
+    arr.push(article2);
+  }
   /**Load mỗi lần 6 bài viết  */
-  return sixArticle;
+  return arr;
 }
+
  function getMostLikeArticleByDay(allArticle){
     var arrArticle =new Array(),maxLikeCounts=0;    //arrArticle: Là mảng lưu tất cả những bài có like cao giống nhau.
     var mostLikedArticle = new db.articleModels();
@@ -241,4 +255,3 @@ exports.getAllArticleByIdUser = async(req,res,next)=>{
     "article" : article
   })  
 }
-

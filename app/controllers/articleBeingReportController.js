@@ -11,15 +11,15 @@ exports.createReports = async (req, res, next) => {
         })
     }
     else {
-        // 3. Nếu đã tồn tại id Article rồi thì ta chỉ cần push userReport mới vào.
-        // 3.1 Kiểm tra người dùng đó report bài này hay chưa
-        for (var item of article.userReport) {
-            if (item.idUser == req.body.userReport[0].idUser) {
-                return res.status(200).json({
-                    "Message": "Report Limited"
-                })
-            }
+    // 3. Nếu đã tồn tại id Article rồi thì ta chỉ cần push userReport mới vào.
+    // 3.1 Kiểm tra người dùng đó report bài này hay chưa
+    for (var item of article.userReport) {
+        if (item.idUser == req.body.userReport[0].idUser) {
+            return res.status(200).json({
+                "Message": "Report Limited"
+            })
         }
+    }
     }
     // 4. Nếu người dùng chưa report bài này thì push idUser người này vào article.
     var b = await db.articleBeingReportModels.findOneAndUpdate(
