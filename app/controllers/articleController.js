@@ -49,11 +49,9 @@ exports.addNewArticle = async function (req, res, next) {
   }
   
 }
-
-
  /**Lấy 1 bài viết có lượt like cao nhất trong ngày. 
-   * Và 12 bài viết theo ngày.
-   * Nếu bài viết trong ngày không đủ sẽ lấy bài viết của các ngày sau đó. */
+ * Và 12 bài viết theo ngày.
+ * Nếu bài viết trong ngày không đủ sẽ lấy bài viết của các ngày sau đó. */
 exports.getAllArticle = async function (req, res, next) {
   var allArticle = await db.articleModels.find();
   /**Đếm số like cao nhất trong ngày */
@@ -62,7 +60,7 @@ exports.getAllArticle = async function (req, res, next) {
   //Step 01: Lấy bài viết có số like cao nhất.
   return  res.status(200).json({
     message: "The most liked article of the day.",
-    "PopularArticle":getMostLikeArticleByDay(allArticle),
+    "PopularArticle":await getMostLikeArticleByDay(allArticle),
     "Article": await pagingArticle(allArticle,req.body.order)
   }); 
 }
@@ -95,21 +93,22 @@ async function pagingArticle (allArticle,current) {
       testArr.push(a.name);
     }
     sixArticle.push(article[i]);
-
   }
   var arr = [];
   for(var i = 0; i < 6; i++){
-    var article2 = {
-      Article: sixArticle[i],
-      Author: testArr[i]
+    if(sixArticle[i]!=null){
+      var article2 = {
+        Article: sixArticle[i],
+        Author: testArr[i]
+      }
+      arr.push(article2);
     }
-    arr.push(article2);
   }
   /**Load mỗi lần 6 bài viết  */
   return arr;
 }
 
- function getMostLikeArticleByDay(allArticle){
+ async function getMostLikeArticleByDay(allArticle){
     var arrArticle =new Array(),maxLikeCounts=0;    //arrArticle: Là mảng lưu tất cả những bài có like cao giống nhau.
     var mostLikedArticle = new db.articleModels();
     var minHour=24, minDay=31,minMinutes=60;
@@ -136,8 +135,15 @@ async function pagingArticle (allArticle,current) {
     }else{
       mostLikedArticle = arrArticle[0];
     }
-    return mostLikedArticle;
-  }
+    var userName = await db.userAccountModels.findOne({ _id: mostLikedArticle.idUser });
+    var poppularArticle = new Array();
+    poppularArticle={
+      "Article": mostLikedArticle,
+      "userName": userName.name
+    }
+    return poppularArticle;
+}
+
 function maxInArray (allArticle) {  
   var currentDatetime = new Date(),maxLikeCounts=0;
   allArticle.forEach(element => {
@@ -149,21 +155,7 @@ function maxInArray (allArticle) {
   });
   return maxLikeCounts;
 }
-function getDateTime() {
-  var date = new Date();
-  var hour = date.getHours();
-  hour = (hour < 10 ? "0" : "") + hour;
-  var min = date.getMinutes();
-  min = (min < 10 ? "0" : "") + min;
-  var sec = date.getSeconds();
-  sec = (sec < 10 ? "0" : "") + sec;
-  // var year = date.getFullYear();
-  // var month = date.getMonth() + 1;
-  // month = (month < 10 ? "0" : "") + month;
-  var day = date.getDate();
-  day = (day < 10 ? "0" : "") + day;
-  return day + "T" + hour + ":" + min + ":" + sec;
-}
+
 exports.getArticleById = async function (req, res, next) {
   // await db.articleModels.findOne({ _id: req.query.id },(err,ok)=>{
   // return ok ? res.status(200).json({"Aricle":ok}) : 
