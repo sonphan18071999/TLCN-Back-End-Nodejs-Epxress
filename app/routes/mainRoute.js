@@ -8,6 +8,7 @@ const comment_Controller = require('../controllers/commentController');
 const saved_article_Controller = require('../controllers/savedArticleController.js')
 const hash_tag_Controller = require('../controllers/hashtagController')
 const report_article_Controller = require('../controllers/articleBeingReportController')
+const annoucement_Controller = require('../controllers/announcementController')
 const router = express.Router();
 
 /**Brand */
@@ -34,6 +35,7 @@ router.get('/get-article',article_Controller.getArticleById);
 router.post('/update-article',article_Controller.updateArticleById);
 router.post('/delete-article',article_Controller.deleteArticleById)
 router.get('/get-all-article-posted-by-user',article_Controller.getAllArticleByIdUser)
+router.post('/check-author',article_Controller.checkArticleAuthor);
 /**Article */
 
 /**Comment */
@@ -58,4 +60,7 @@ router.post('/create-hashtag',hash_tag_Controller.createHashTag);
 /**Report article */
 router.post('/create-report',report_article_Controller.createReports)
 /**Report article */
+
+/**Create annoucement */
+router.post('/create-annoucement',annoucement_Controller.createNewAnnouncement);
 module.exports = router;

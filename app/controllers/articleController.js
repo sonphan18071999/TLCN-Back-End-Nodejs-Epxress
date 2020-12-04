@@ -247,3 +247,17 @@ exports.getAllArticleByIdUser = async(req,res,next)=>{
     "article" : article
   })  
 }
+exports.checkArticleAuthor = async(req,res)=>{
+  var article = await db.articleModels.findById({_id:req.body.idArticle});
+  if(article){
+    if(article.idUser==req.body.idUser){
+      return res.status(200).json({
+        "Message":"Authenticated"
+      })
+    }else{
+      return res.status(203).json({
+        "Message":"Unauthenticated"
+      })
+    }
+  }
+}

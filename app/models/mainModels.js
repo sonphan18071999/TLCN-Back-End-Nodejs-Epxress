@@ -72,11 +72,9 @@ let savedArticleSchema = new Schema({
 
 let announceArticleSchema = new Schema({
   idUser: { type: mongoose.Schema.ObjectId },
-  TypeAnnounce: {
-    type: String,
-    enum: ["comment", "reply comment", "like", "report", "follow"],
-    default: "comment"
-  }
+  description:{type:String},
+  typeComment:{type: String, enum : ['Comment','Like','Report'], default: 'Like'},
+  idArticle:{type:mongoose.Schema.ObjectId}
 })
 
 let hashTagSchema = new Schema({

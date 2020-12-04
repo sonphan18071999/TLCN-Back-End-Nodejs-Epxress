@@ -17,8 +17,9 @@ exports.createHashTag = async (req,res,next)=>{
     }
 }
 
-exports.findHashTag = async (req,res,next)=>{
-
+exports.findArticleByHashTagName = async (req,res,next)=>{
+    var arrArticle=await db.hashTagModels.findOne({name:req.body.hashTagName.trim()});
+    arrArticle = arrArticle.article;
 }
 exports.getAllHashTagByArticleId = async(req,res,next)=>{
     var idArticle = req;
