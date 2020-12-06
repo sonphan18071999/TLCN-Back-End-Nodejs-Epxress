@@ -11,9 +11,9 @@ const fileupload = require("express-fileupload");
 var cors = require('cors')
 var db = require('./app/models/mainModels')
 // set up dependencies
+var server = app.listen(process.env.port || port);
 app.use(cors())
 
-var server = app.listen(process.env.port || port);
 var io = require('socket.io')(server, {
   cors: {
     origin: port,
