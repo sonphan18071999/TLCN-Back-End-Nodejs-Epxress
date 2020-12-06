@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 
 // set up port
-const port = 4200;
+const port = 4000;
 const bodyParser=require('body-parser');
 const mongoose=require('mongoose');
 const start = require('./app/routes/mainRoute'); 
