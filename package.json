@@ -7,6 +7,9 @@
     "test": "jest --coverage",
     "start": "npm run build && node server.js"
   },
+  "engines": {
+    "node": "14.5.0"
+  },
   "author": "son phan",
   "license": "ISC",
   "dependencies": {

@@ -13,7 +13,11 @@ var db = require('./app/models/mainModels')
 // set up dependencies
 // app.listen(process.env.port || port);
 app.use(cors())
-var server = app.listen( process.env.PORT || port);
+var server = express()
+.use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+.listen(port, () => console.log(`Listening on ${port}`));
+
+
 var io = require('socket.io')(server, {
   cors: {
     origin: port,
@@ -23,11 +27,6 @@ var io = require('socket.io')(server, {
   }
 });
 
-// app.get('/', (request, respond) => {
-//   respond.status(200).json({
-//     message: 'Welcome to Project Support',
-//   });
-// });
 app.use(fileupload({
   useTempFiles:true
 }));
