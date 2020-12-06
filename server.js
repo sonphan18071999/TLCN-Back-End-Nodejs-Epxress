@@ -12,7 +12,8 @@ var cors = require('cors')
 var db = require('./app/models/mainModels')
 // set up dependencies
 app.use(cors())
-var server = app.listen(port);
+
+var server = app.listen(port || 5000);
 var io = require('socket.io')(server, {
   cors: {
     origin: "http://localhost:4200",
