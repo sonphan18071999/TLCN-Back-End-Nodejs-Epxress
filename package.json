@@ -5,8 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "jest --coverage",
-    "debug": "node server.js",
-    "start": "node server.js"
+    "start": "npm run build && node server.js"
   },
   "author": "son phan",
   "license": "ISC",
