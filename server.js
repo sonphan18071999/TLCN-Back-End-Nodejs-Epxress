@@ -13,10 +13,10 @@ var db = require('./app/models/mainModels')
 // set up dependencies
 app.use(cors())
 
-var server = app.listen(port || 5000);
+var server = app.listen(process.env.port || port);
 var io = require('socket.io')(server, {
   cors: {
-    origin: "http://localhost:4200",
+    origin: port,
     methods: ["GET", "POST"],
     allowedHeaders: ["Access-Control-Allow-Origin"],
     credentials: true
