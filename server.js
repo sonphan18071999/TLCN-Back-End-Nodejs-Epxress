@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 
 // set up port
-const port = 5000;
+const port = 4200;
 const bodyParser=require('body-parser');
 const mongoose=require('mongoose');
 const start = require('./app/routes/mainRoute'); 
@@ -11,7 +11,7 @@ const fileupload = require("express-fileupload");
 var cors = require('cors')
 var db = require('./app/models/mainModels')
 // set up dependencies
-app.listen(process.env.port || port);
+// app.listen(process.env.port || port);
 var server = app.listen(process.env.port || port);
 app.use(cors())
 
