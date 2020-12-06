@@ -11,7 +11,7 @@ const fileupload = require("express-fileupload");
 var cors = require('cors')
 var db = require('./app/models/mainModels')
 // set up dependencies
-var server = app.listen(process.env.port || port);
+app.listen(process.env.port || port);
 app.use(cors())
 
 var io = require('socket.io')(server, {
@@ -57,13 +57,6 @@ mongoose.connect('mongodb+srv://sonp:Chikiet1@@clusterblogaccessories.w6uag.gcp.
   .catch((error)=> {
     console.log('Error connecting to database'+error);
   });
-
-// set up route
-// app.get('/', (req, res) => {
-//   res.status(200).json({
-//     message: 'Welcome to Project with Nodejs Express and MongoDB',
-//   });
-// });
 
 
 app.get('/', (req, res) => {
