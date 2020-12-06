@@ -12,6 +12,7 @@ var cors = require('cors')
 var db = require('./app/models/mainModels')
 // set up dependencies
 app.listen(process.env.port || port);
+var server = app.listen(process.env.port || port);
 app.use(cors())
 
 var io = require('socket.io')(server, {
