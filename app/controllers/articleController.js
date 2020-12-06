@@ -200,29 +200,36 @@ getArticleWithByHashTag = async function (req,res,next){
   return allRelatedArticle;
 }
 
-exports.updateArticleById = async function (req,res,next) {
+exports.updateContentArticleById = async function (req,res,next) {
   var article = req.body;
-  await db.articleModels.findOneAndUpdate({_id:req.body.id},{$set:{tittle:article.tittle}}, (error,ok)=> {
-    if(error){
-    return res.status(500).json({
-        "Message":"Cant update this article",
-        "Error":error
-      })
+  //1. Convert link images send to cloudiary and make it online
+  for (var i = 0; i < article.content.length; i++) {
+    if (article.content[i].images!=null) {
+      await cloudinary.uploader.upload(article.content[i].images,
+        function (err, result) {
+          //Lấy URL trả về từ Cloudiary
+          article.content[i].images = err.url.toString();
+        })
     }
-    if(ok){
-    return  res.status(200).json({
-        "Message":"Insert article successfully",
-        "Article":ok
-      })
-    }
-  }) 
+  }
+  // 2. Update article to database type JSON - Raw
+  await db.articleModels.updateMany({_id:req.body.idArticle},{"content":article.content})
+
+  var a = await db.articleModels.findOne({ _id: req.body.idArticle });
+  if (a) {
+    return res.status(200).json({
+      "Message": "Update article successfully",
+      "Article": a
+    })
+  }
 } 
 exports.deleteArticleById = async (req,res,next)=> {
   if(req.body.id==null){
-    return res.status(500).json({
+    return res.status(203).json({
       "Message":"You don't put any id"
     })
   }
+  // 1. Xóa article trong bảng article
   await db.articleModels.deleteOne({_id:mongo.ObjectID(req.body.id)},(err,ok)=>{
     if(err){
       return res.status(500).json({
@@ -230,12 +237,14 @@ exports.deleteArticleById = async (req,res,next)=> {
         "error":err
       })
     }
-    if(ok){
-      return res.status(200).json({
-        "Message":"Delete article successfully"
-      })
-    }
   })
+
+  // 2. Xóa những idArticle mà User lưu.
+  
+  // 3. Xóa những comment thuộc về article.
+
+  // 4. Xóa những id thuộc hastag.
+
 }
 
 exports.likeArticle = async(req,res,next)=>{

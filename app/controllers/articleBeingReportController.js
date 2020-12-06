@@ -1,5 +1,5 @@
 const db = require('../models/mainModels');
-exports.createReports = async (req, res, next) => {
+exports.createReports = async (req, res, next) => {ư
     // 1. Kiểm tra Article đó đã bị report trước đó chưa.
     var article = await db.articleBeingReportModels.findOne({ idArticle: req.body.idArticle });
     // 2. Nếu chưa thì tạo mới id Article bị report đó.

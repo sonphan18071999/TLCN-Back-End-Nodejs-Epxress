@@ -32,7 +32,7 @@ router.get('/get-all-image',image_Controller.getAllImage);
 router.post('/post-article',article_Controller.addNewArticle);
 router.post('/get-all-article',article_Controller.getAllArticle);
 router.get('/get-article',article_Controller.getArticleById);
-router.post('/update-article',article_Controller.updateArticleById);
+router.post('/update-article-content',article_Controller.updateContentArticleById);
 router.post('/delete-article',article_Controller.deleteArticleById)
 router.get('/get-all-article-posted-by-user',article_Controller.getAllArticleByIdUser)
 router.post('/check-author',article_Controller.checkArticleAuthor);
