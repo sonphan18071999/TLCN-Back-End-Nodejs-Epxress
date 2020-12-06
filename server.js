@@ -13,9 +13,7 @@ var db = require('./app/models/mainModels')
 // set up dependencies
 // app.listen(process.env.port || port);
 app.use(cors())
-var server = express()
-.use((req, res) => res.sendFile(INDEX, { root: __dirname }))
-.listen(port, () => console.log(`Listening on ${port}`));
+var server = app.listen(port, () => console.log(`Listening on ${port}`));
 
 
 var io = require('socket.io')(server, {
