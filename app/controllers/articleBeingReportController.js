@@ -25,7 +25,9 @@ exports.createReports = async (req, res, next) => {ư
     var b = await db.articleBeingReportModels.findOneAndUpdate(
         { idArticle: req.body.idArticle },
         { $push: { userReport: req.body.userReport[0] } }
-    );
+    ).then(res=>{
+        
+    });
     if (b) {
         //Push thành công nhưng idUser của người post trả về trễ.(ko trả về kèm theo)
         return res.status(200).json({
@@ -36,4 +38,35 @@ exports.createReports = async (req, res, next) => {ư
 }
 exports.checkReportArticle = async(req,res,next)=>{
     
+}
+exports.banArticle = async (req,res,next)=>{
+    //1. Admin sẽ chọn level ban cho bài viết.
+    // await db.articleBeingReportModels.findOne({idArticle:req.body.idArticle})
+}
+exports.disableArticle = async (req,res,next)=>{
+    await db.articleBeingReportModels.findOneAndUpdate({idArticle:req.body.idArticle},{$set:{isDisabled:true}})
+    .then(ok=>{
+        return res.status(200).json({
+            "Message":"Disable article succesfully",
+            "Aricle":ok
+        })
+    });
+ 
+}
+exports.enableArticle = async (req,res,next)=>{
+    await db.articleBeingReportModels.findOneAndUpdate({idArticle:req.body.idArticle},{$set:{isDisabled:false}})
+    .then(ok=>{
+        return res.status(200).json({
+            "Message":"Enable article succesfully",
+            "Aricle":ok
+        })
+    });
+ 
+}
+exports.getAllArticleBeingReport = async(req,res,next)=>{
+    var allArticle = await db.articleBeingReportModels.find();
+    return res.status(200).json({
+        "Message":"All article being report",
+        "Article":allArticle
+    })
 }

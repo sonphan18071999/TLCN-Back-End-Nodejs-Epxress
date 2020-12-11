@@ -11,34 +11,32 @@ const fileupload = require("express-fileupload");
 var cors = require('cors')
 var db = require('./app/models/mainModels')
 // set up dependencies
-// app.listen(process.env.port || port);
-var server = app.listen(port, () => console.log(`Listening on ${port}`))
-  .use('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-  })
-  .use(cors())
-  .use(fileupload({
-    useTempFiles:true
-  }))
-  .use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:52428800}))
-  .use(bodyParser.json({limit: "50mb"}))
-
-
+app.use(cors())
+var server = app.listen(port);
 var io = require('socket.io')(server, {
   cors: {
-    origin: port,
+    origin: "http://localhost:4200",
     methods: ["GET", "POST"],
     allowedHeaders: ["Access-Control-Allow-Origin"],
     credentials: true
   }
 });
 
-
+// app.get('/', (request, respond) => {
+//   respond.status(200).json({
+//     message: 'Welcome to Project Support',
+//   });
+// });
+app.use(fileupload({
+  useTempFiles:true
+}));
 
 
 //Un limit request
+app.use(bodyParser.json({limit: "50mb"}));
 // app.use(bodyParser.json());
 
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:52428800}));
 /**Mongo Db */
 // set up mongoose
 mongoose.connect('mongodb+srv://sonp:Chikiet1@@clusterblogaccessories.w6uag.gcp.mongodb.net/<BlogAccessories>?retryWrites=true&w=majority', { useNewUrlParser: true,useFindAndModify:false,useCreateIndex:true,useUnifiedTopology: true})
@@ -59,7 +57,17 @@ mongoose.connect('mongodb+srv://sonp:Chikiet1@@clusterblogaccessories.w6uag.gcp.
     console.log('Error connecting to database'+error);
   });
 
+// set up route
+// app.get('/', (req, res) => {
+//   res.status(200).json({
+//     message: 'Welcome to Project with Nodejs Express and MongoDB',
+//   });
+// });
 
+
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+});
 
 // app.listen(port, () => {
 //   console.log(`Our server is running on port ${port}`);
@@ -69,5 +77,3 @@ mongoose.connect('mongodb+srv://sonp:Chikiet1@@clusterblogaccessories.w6uag.gcp.
 //Use api
 
 app.use('/api',start);
-
-

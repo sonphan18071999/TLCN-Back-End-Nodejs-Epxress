@@ -85,11 +85,18 @@ let hashTagSchema = new Schema({
 })
 
 let ArticleBeingReportSchema = new Schema({
+  // Level 0: Cảnh bảo,
+  // Level 1: Ban 3 ngày,
+  // Level 2: Ban 7 ngày,
+  // Level 3: Xóa bài viết 
   idArticle:{type:String},
   userReport:[{
     idUser:{type:mongoose.Schema.ObjectId},
     Reason:{type:String}
-  }]
+  }],
+  levelBan:{type:Number,default:0},        
+  endBanDate:{type:String,default:Date.now()},
+  isDisabled:{type:Boolean,default:false}
 })
 
 var testModels = mongoose.model('Test', TestSchema);

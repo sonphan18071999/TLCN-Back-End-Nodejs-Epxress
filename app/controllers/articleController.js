@@ -213,7 +213,7 @@ exports.updateContentArticleById = async function (req,res,next) {
     }
   }
   // 2. Update article to database type JSON - Raw
-  await db.articleModels.updateMany({_id:req.body.idArticle},{"content":article.content})
+  await db.articleModels.updateMany({_id:req.body.idArticle},{"content":article.content});
 
   var a = await db.articleModels.findOne({ _id: req.body.idArticle });
   if (a) {
@@ -270,3 +270,4 @@ exports.checkArticleAuthor = async(req,res)=>{
     }
   }
 }
+

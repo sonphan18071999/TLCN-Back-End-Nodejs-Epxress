@@ -58,6 +58,18 @@ exports.checkAccount = async function(req,res,next){
       }
     });
     
+  }else if(req.body.typeAccount=="admin"){
+    var chkUser = await db.userAccountModels.findOne({ email: req.body.email, password: req.body.password,typeAccount:req.body.typeAccount});
+    if (chkUser) {
+      return res.status(200).json({
+        message: "User does exist",
+        user: chkUser
+      })
+    } else {
+     return res.status(500).json({
+        message: "User doesn't exist"
+      })
+    }
   }
   if(req.body.typeAccount=="normal")
   {
@@ -68,7 +80,7 @@ exports.checkAccount = async function(req,res,next){
         user: chkUser
       })
     } else {
-      res.status(500).json({
+      return res.status(500).json({
         message: "User doesn't exist"
       })
     }
@@ -90,7 +102,7 @@ exports.findUserById = async (req,res,next)=> {
     }
   })
 }
-exports.getAllUser = async (req,res,next)=>{
+exports.getAllUser = async (req,res,next) =>{
   await db.userAccountModels.find((er,ok)=>{
     return res.status(200).json({
       "message":"Get all the user successfully",
