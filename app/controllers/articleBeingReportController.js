@@ -1,5 +1,5 @@
 const db = require('../models/mainModels');
-exports.createReports = async (req, res, next) => {ư
+exports.createReports = async (req, res, next) => {
     // 1. Kiểm tra Article đó đã bị report trước đó chưa.
     var article = await db.articleBeingReportModels.findOne({ idArticle: req.body.idArticle });
     // 2. Nếu chưa thì tạo mới id Article bị report đó.
@@ -64,9 +64,39 @@ exports.enableArticle = async (req,res,next)=>{
  
 }
 exports.getAllArticleBeingReport = async(req,res,next)=>{
-    var allArticle = await db.articleBeingReportModels.find();
+    var allArticleBeingReport = await db.articleBeingReportModels.find();
+    // allArticleBeingReport= Array.from(allArticleBeingReport)
+    var arrayTitle = new Array();
+    for(var item of allArticleBeingReport){
+        await db.articleModels.findOne({ _id: item.idArticle }).then(ok=>{
+            arrayTitle.push({"title":ok.tittle})
+        });
+    }    
+    var arrDem =[];
+    var allArticleBeingReportReturn =[];
+    for(var i =0;i<allArticleBeingReport.length;i++){
+        arrDem ={
+            Article: allArticleBeingReport[i],
+            Title: arrayTitle[i]
+        }
+        allArticleBeingReportReturn.push(arrDem);
+    }
     return res.status(200).json({
         "Message":"All article being report",
-        "Article":allArticle
+        "Article":allArticleBeingReportReturn
     })
+    // for (var i = 0; i < allArticleBeingReport.length; i++) {
+    //     var a = await db.articleModels.findOne({ _id: allArticleBeingReport[i].idArticle });
+    //     if (a) {
+    //         allArticleBeingReport[i].push({ "title": a.tittle });
+    //         console.log(allArticleBeingReport[i])
+    //         // if (i == allArticleBeingReport.length - 1) {
+    //         //     return res.status(200).json({
+    //         //         "Message": "Get all article being report",
+    //         //         "Article": allArticleBeingReport
+    //         //     })
+    //         // }
+    //     }
+    // }
+   
 }
