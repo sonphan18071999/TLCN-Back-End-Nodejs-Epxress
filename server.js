@@ -2,9 +2,10 @@ const express = require('express');
 // set up express app
 const app = express();
 var http = require('http'); //the variable doesn't necessarily have to be named http
+const dotenv = require('dotenv')
 
 // set up port
-const port = 4000;
+const port = process.env.PORT || 4000 ;
 const bodyParser=require('body-parser');
 const mongoose=require('mongoose');
 const start = require('./app/routes/mainRoute'); 
@@ -15,6 +16,7 @@ var db = require('./app/models/mainModels')
 app.use(cors())
 var server = http.createServer((req, res) => {
 });
+dotenv.config({ path: './database.env' })
 
 server = app.listen(port);
 var io = require('socket.io')(server, {
@@ -43,7 +45,7 @@ app.use(bodyParser.json({limit: "50mb"}));
 app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:52428800}));
 /**Mongo Db */
 // set up mongoose
-mongoose.connect('mongodb+srv://sonp:Chikiet1@@clusterblogaccessories.w6uag.gcp.mongodb.net/<BlogAccessories>?retryWrites=true&w=majority', { useNewUrlParser: true,useFindAndModify:false,useCreateIndex:true,useUnifiedTopology: true})
+mongoose.connect(process.env.DB_URL, { useNewUrlParser: true,useFindAndModify:false,useCreateIndex:true,useUnifiedTopology: true})
   .then(()=> {
     console.log('Database connected');
    /**Configure socket.io */
@@ -69,9 +71,9 @@ mongoose.connect('mongodb+srv://sonp:Chikiet1@@clusterblogaccessories.w6uag.gcp.
 // });
 
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
-});
+// app.get('/', (req, res) => {
+//   res.sendFile(__dirname + '/index.html');
+// });
 
 // app.listen(port, () => {
 //   console.log(`Our server is running on port ${port}`);
