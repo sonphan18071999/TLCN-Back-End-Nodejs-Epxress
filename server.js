@@ -71,9 +71,9 @@ mongoose.connect(process.env.DB_URL, { useNewUrlParser: true,useFindAndModify:fa
 // });
 
 
-// app.get('/', (req, res) => {
-//   res.sendFile(__dirname + '/index.html');
-// });
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+});
 
 // app.listen(port, () => {
 //   console.log(`Our server is running on port ${port}`);
