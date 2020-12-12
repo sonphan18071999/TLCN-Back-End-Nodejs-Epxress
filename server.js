@@ -1,6 +1,7 @@
 const express = require('express');
 // set up express app
 const app = express();
+var http = require('http'); //the variable doesn't necessarily have to be named http
 
 // set up port
 const port = 4000;
@@ -12,7 +13,10 @@ var cors = require('cors')
 var db = require('./app/models/mainModels')
 // set up dependencies
 app.use(cors())
-var server = app.listen(port);
+var server = http.createServer((req, res) => {
+});
+
+server = app.listen(port);
 var io = require('socket.io')(server, {
   cors: {
     origin: "http://localhost:4200",
