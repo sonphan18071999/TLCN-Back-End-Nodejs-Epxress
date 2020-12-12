@@ -62,6 +62,7 @@ router.post('/create-report',report_article_Controller.createReports)
 router.get('/all-article-being-report',report_article_Controller.getAllArticleBeingReport);         //get all article being report
 router.post('/disable-article',report_article_Controller.disableArticle);           //Disable article
 router.post('/enable-article',report_article_Controller.enableArticle);             //Enable article
+router.post('/update-level-artilce-report',report_article_Controller.setLevelForArticleReport)
 /**Report article */
 
 /**Create annoucement */

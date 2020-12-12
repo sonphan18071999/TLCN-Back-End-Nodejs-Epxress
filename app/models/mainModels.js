@@ -95,7 +95,7 @@ let ArticleBeingReportSchema = new Schema({
     Reason:{type:String}
   }],
   levelBan:{type:Number,default:0},        
-  endBanDate:{type:String,default:Date.now()},
+  endBanDate:{type:String,default:Date.now},
   isDisabled:{type:Boolean,default:false}
 })
 

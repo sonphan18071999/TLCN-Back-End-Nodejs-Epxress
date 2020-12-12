@@ -73,7 +73,7 @@ exports.getAllArticleBeingReport = async(req,res,next)=>{
         });
     }    
     var arrDem =[];
-    var allArticleBeingReportReturn =[];
+    var allArticleBeingReportReturn = [];
     for(var i =0;i<allArticleBeingReport.length;i++){
         arrDem ={
             Article: allArticleBeingReport[i],
@@ -85,18 +85,14 @@ exports.getAllArticleBeingReport = async(req,res,next)=>{
         "Message":"All article being report",
         "Article":allArticleBeingReportReturn
     })
-    // for (var i = 0; i < allArticleBeingReport.length; i++) {
-    //     var a = await db.articleModels.findOne({ _id: allArticleBeingReport[i].idArticle });
-    //     if (a) {
-    //         allArticleBeingReport[i].push({ "title": a.tittle });
-    //         console.log(allArticleBeingReport[i])
-    //         // if (i == allArticleBeingReport.length - 1) {
-    //         //     return res.status(200).json({
-    //         //         "Message": "Get all article being report",
-    //         //         "Article": allArticleBeingReport
-    //         //     })
-    //         // }
-    //     }
-    // }
-   
+}
+exports.setLevelForArticleReport = async(req,res,next)=>{
+    var level = await db.articleBeingReportModels.findOneAndUpdate({idArticle:req.body.idArticle},{$set:{levelBan:req.body.level}})
+    if(level){
+        return this.getAllArticleBeingReport(req,res,next);
+    }else{
+        return res.status(300).json({
+            "Message":"Unable to update level ban of article"
+        })
+    }
 }
