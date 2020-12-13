@@ -21,7 +21,7 @@ dotenv.config({ path: './database.env' })
 server = app.listen(port);
 var io = require('socket.io')(server, {
   cors: {
-    origin: "http://localhost:4200",
+    origin: port,
     methods: ["GET", "POST"],
     allowedHeaders: ["Access-Control-Allow-Origin"],
     credentials: true
