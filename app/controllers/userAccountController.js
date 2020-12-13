@@ -19,7 +19,7 @@ exports.AddUserAccount = async function (req, res, next) {
     }
   }
 }
-exports.checkAccount = async function(req,res,next){
+exports.checkAccount = async function(  req,res,next){
   //1. Nếu kiểm tra user đăng nhập bằng facebook thì sẽ check lần đầu và mail.
  
   if(req.body.typeAccount=="facebook"){
