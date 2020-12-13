@@ -21,7 +21,7 @@ dotenv.config({ path: './database.env' })
 server = app.listen(port);
 var io = require('socket.io')(server, {
   cors: {
-    origin: port,
+    origin: "https://fe-angular-tlcn.herokuapp.com",
     methods: ["GET", "POST"],
     allowedHeaders: ["Access-Control-Allow-Origin"],
     credentials: true
@@ -37,18 +37,7 @@ var io = require('socket.io')(server, {
 app.use(fileupload({
   useTempFiles:true
 }));
-/**Configure socket.io */
-io.on('connection', (socket) => {
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });
-  socket.on('broadcast',(msg)=>{
-    socket.broadcast.emit("update state comment",msg);
-  })
-});
-setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
 
-/**Configure socket.io */
 
 //Un limit request
 app.use(bodyParser.json({limit: "50mb"}));
@@ -60,7 +49,17 @@ app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:524
 mongoose.connect(process.env.DB_URL, { useNewUrlParser: true,useFindAndModify:false,useCreateIndex:true,useUnifiedTopology: true})
   .then(()=> {
     console.log('Database connected');
-   
+   /**Configure socket.io */
+  io.on('connection', (socket) => {
+    socket.on('disconnect', () => {
+      console.log('user disconnected');
+    });
+    socket.on('broadcast',(msg)=>{
+      socket.broadcast.emit("update state comment",msg);
+    })
+  });
+
+/**Configure socket.io */
   })
   .catch((error)=> {
     console.log('Error connecting to database'+error);
