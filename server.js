@@ -21,7 +21,7 @@ dotenv.config({ path: './database.env' })
 server = app.listen(port);
 var io = require('socket.io')(server, {
   cors: {
-    origin: "https://fe-angular-tlcn.herokuapp.com/blog",
+    origin: "https://be-nodejs-tlcn.herokuapp.com/socket.io/",
     methods: ["GET", "POST"],
     allowedHeaders: ["Access-Control-Allow-Origin"],
     credentials: true
