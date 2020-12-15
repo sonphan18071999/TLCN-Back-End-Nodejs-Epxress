@@ -1,17 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let TestSchema = new Schema({
-  title: { type: String, default: null }
-})
-
-
-
-let BrandSchema = new Schema({
-  NameBrand: { type: String, default: null }
-})
-
-
 let AccountSchema = new Schema({
   email: { type: String, required: true, default: null },
   password: { type: String, required: true,min:6 },
@@ -62,7 +51,6 @@ let commentSchema = new Schema({
   idArticle: {type:mongoose.Schema.ObjectId}
 })
 
-
 let savedArticleSchema = new Schema({
   idUser:String,
   allArticleSaved:[{
@@ -99,8 +87,15 @@ let ArticleBeingReportSchema = new Schema({
   isDisabled:{type:Boolean,default:false}
 })
 
-var testModels = mongoose.model('Test', TestSchema);
-var brandModels = mongoose.model('Brand',BrandSchema);
+let BullentinBoardSchema = new Schema({
+  imgUrl: {tyep:String},
+  title:{type:String},
+  idAuthor:{type:String},
+  likesUser:[{type:mongoose.Schema.ObjectId}],
+  viewer:[{type:mongoose.Schema.ObjectId}],
+  datePost:{type:Date,default:Date.now}
+})
+
 var userAccountModels = mongoose.model('UserAccount', AccountSchema);
 var imageModels = mongoose.model('Image',imageSchema);
 var articleModels = mongoose.model('Articles',articleSchema);
@@ -109,9 +104,8 @@ var savedModels = mongoose.model('SavedArticle',savedArticleSchema);
 var announceModels = mongoose.model('Announcement',announceArticleSchema);
 var hashTagModels = mongoose.model('HashTag',hashTagSchema);
 var articleBeingReportModels = mongoose.model('ArticleBeingReport',ArticleBeingReportSchema);
+var bullentinBoard = mongoose.model('BullentinBoard',BullentinBoardSchema);
 module.exports = {
-  testModels:testModels,
-  brandModels:brandModels,
   userAccountModels:userAccountModels,
   imageModels:imageModels,
   articleModels:articleModels,
@@ -119,5 +113,6 @@ module.exports = {
   savedModels:savedModels,
   announceModels:announceModels,
   hashTagModels:hashTagModels,
-  articleBeingReportModels:articleBeingReportModels
+  articleBeingReportModels:articleBeingReportModels,
+  bullentinBoard:bullentinBoard
 };

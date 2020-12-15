@@ -9,6 +9,7 @@ const saved_article_Controller = require('../controllers/savedArticleController.
 const hash_tag_Controller = require('../controllers/hashtagController')
 const report_article_Controller = require('../controllers/articleBeingReportController')
 const annoucement_Controller = require('../controllers/announcementController')
+const bullentin_Controller = require('../controllers/bulletinBoardController')
 const router = express.Router();
 
 /**Brand */
@@ -67,4 +68,12 @@ router.post('/update-level-artilce-report',report_article_Controller.setLevelFor
 
 /**Create annoucement */
 router.post('/create-annoucement',annoucement_Controller.createNewAnnouncement);
+/**Create annoucement */
+
+
+/**Bullentin Controller */
+router.post('/bullentinBoard/create',bullentin_Controller.createNewBullentinBoard);
+router.post('/bullentinBoard/detail',bullentin_Controller.viewDetail);
+/**Bullentin Controller */
+
 module.exports = router;

@@ -28,12 +28,6 @@ var io = require('socket.io')(server, {
   }
 });
 
-
-// app.get('/', (request, respond) => {
-//   respond.status(200).json({
-//     message: 'Welcome to Project Support',
-//   });
-// });
 app.use(fileupload({
   useTempFiles:true
 }));
@@ -46,41 +40,34 @@ app.use(bodyParser.json({limit: "50mb"}));
 app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:52428800}));
 /**Mongo Db */
 // set up mongoose
-mongoose.connect(process.env.DB_URL, { useNewUrlParser: true,useFindAndModify:false,useCreateIndex:true,useUnifiedTopology: true})
+
+
+mongoose.connect(process.env.DB_URL, { 
+  useNewUrlParser: true,
+  useFindAndModify:false,
+  useCreateIndex:true,
+  useUnifiedTopology: true})
   .then(()=> {
     console.log('Database connected');
-   /**Configure socket.io */
-  io.on('connection', (socket) => {
-    socket.on('disconnect', () => {
-      console.log('user disconnected');
+    /**Configure socket.io */
+    io.on('connection', (socket) => {
+      socket.on('disconnect', () => {
+        console.log('user disconnected');
+      });
+      socket.on('broadcast', (msg) => {
+        socket.broadcast.emit("update state comment", msg);
+      })
     });
-    socket.on('broadcast',(msg)=>{
-      socket.broadcast.emit("update state comment",msg);
-    })
-  });
-
-/**Configure socket.io */
+  /**Configure socket.io */
   })
   .catch((error)=> {
     console.log('Error connecting to database'+error);
   });
 
-// set up route
-// app.get('/', (req, res) => {
-//   res.status(200).json({
-//     message: 'Welcome to Project with Nodejs Express and MongoDB',
-//   });
-// });
-
-
+  
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
-
-// app.listen(port, () => {
-//   console.log(`Our server is running on port ${port}`);
-// });
-
 
 //Use api
 
