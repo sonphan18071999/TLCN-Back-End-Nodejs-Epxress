@@ -88,7 +88,7 @@ let ArticleBeingReportSchema = new Schema({
 })
 
 let BullentinBoardSchema = new Schema({
-  imgUrl: {tyep:String},
+  imgUrl: {type:String},
   title:{type:String},
   idAuthor:{type:String},
   likesUser:[{type:mongoose.Schema.ObjectId}],
