@@ -5,15 +5,22 @@ cloudinary.config({
   api_key:"121517243286974",
   api_secret:"q-rZlX2PIYFPuLOmPlrZso1UYx4"
 })
-exports.createNewBullentinBoard = async (req,res,next)=>{
+exports.createNewBullentinBoard = async (req, res, next) => {
     //1. Lấy nội dung từ bullentinBoard.
     var bullentinBoard = new db.bullentinBoard();
     bullentinBoard = req.body.bullentinBoard;
-    // 2. Convert link image main Image send to cloudiary make it online
+    // 2. Check user
+    var user = await db.userAccountModels.findOne({ _id: bullentinBoard.idAuthor });
+    if (!user) {
+        return res.status(203).json({
+            "Message": "Authenticate failed"
+        })
+    }
+    // 3. Convert link image main Image send to cloudiary make it online
     if (bullentinBoard.imgUrl != null) {
         var uploadImageSuccess = await cloudinary.uploader.upload(bullentinBoard.imgUrl)
-        if(uploadImageSuccess){
-            bullentinBoard.imgUrl=uploadImageSuccess.url.toString()
+        if (uploadImageSuccess) {
+            bullentinBoard.imgUrl = uploadImageSuccess.url.toString()
             var bltBoard = await db.bullentinBoard.create(bullentinBoard);
             if (bltBoard) {
                 return res.status(200).json({
@@ -23,7 +30,6 @@ exports.createNewBullentinBoard = async (req,res,next)=>{
             }
         }
     }
-   
 }
 exports.viewDetail = async (req,res,next)=>{
     //1. Trả về thông tin bài viết.
@@ -41,16 +47,17 @@ exports.viewDetail = async (req,res,next)=>{
     //2. Trả về số lượt xem, thông qua việc đếm người xem trong hệ thống.
 
 }
-exports.getAllBullentinBoardByDate = async (req,res,next)=>{
-    var bullentinBoard = await db.bullentinBoard.find();
-    var currentDay = new Date();
-    var dailyBullentinBoard = new db.bullentinBoard();
-    for(var item of bullentinBoard){
-        if(item.datePost.getDate()==currentDay.getDate()){
-            dailyBullentinBoard.push(item)
+exports.getAllBullentinBoard = async (req,res,next)=>{
+    var a = await db.bullentinBoard.find();
+    var dailyBullentinBoard=new Array();
+    for(var i=0;i<a.length && a.length<15;i++){
+        if(a[i]!=null){
+            dailyBullentinBoard.push(a[i])
+        }else{
+            break;
         }
     }
-    if(dailyBullentinBoard!=null){
+    if(dailyBullentinBoard){
         return res.status(200).json({
             "Message":"All Bullentin Board",
             "AllBullentinBoard":dailyBullentinBoard
