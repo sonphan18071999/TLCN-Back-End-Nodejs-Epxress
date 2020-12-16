@@ -26,7 +26,7 @@ exports.checkAccount = async function(  req,res,next){
     //Tìm email đó, nếu có là đã đăng ký rồi.
     await db.userAccountModels.findOne({email:req.body.email},(er,ok)=>{
       if(er){
-        res.status(500).json({
+        return res.status(500).json({
           message:"User doesn't exist"
       })
       }
