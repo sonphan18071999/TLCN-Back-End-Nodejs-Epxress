@@ -31,22 +31,7 @@ exports.createNewBullentinBoard = async (req, res, next) => {
         }
     }
 }
-exports.viewDetail = async (req,res,next)=>{
-    //1. Trả về thông tin bài viết.
-    var detailBullentin = await db.bullentinBoard.findOne({_id:req.body.id});
-    var likesCount = await db.bullentinBoard.count(likesUser);
-    var viewCount = await db.bullentinBoard.count(viewer);
-    if(detailBullentin){
-        detailBullentin.likesUser = likesCount;
-        viewCount.viewer = viewCount;
-        return res.status(200).json({
-            "Message":"Get detail Bullentin Board",
-            "BullentinBoard":detailBullentin
-        })
-    }
-    //2. Trả về số lượt xem, thông qua việc đếm người xem trong hệ thống.
 
-}
 exports.getAllBullentinBoard = async (req,res,next)=>{
     var a = await db.bullentinBoard.find();
     var dailyBullentinBoard=new Array();
@@ -65,6 +50,23 @@ exports.getAllBullentinBoard = async (req,res,next)=>{
     }else{
         return res.status(203).json({
             "Message":"We have any bullentin now"
+        })
+    }
+}
+exports.getDetailBullentinBoardById = async(req,res,next)=>{
+    //1. Trả về thông tin chi tiết 1 bài viết.
+    var BullentinBoard = await db.bullentinBoard.findById({_id:req.body.id});
+    //2. Từ Id lấy được trả về thông tin người dùng.
+    if(BullentinBoard){
+        var idAuthor = BullentinBoard.idAuthor;
+        var infoAuthor = await db.userAccountModels.findById({_id:idAuthor});
+    }
+    //3. Trả về những Comment trong bảng tin đó.
+    if(BullentinBoard){
+        return res.status(200).json({
+            "Message":"Get bullentin board successfully",
+            "BullentinBoard":BullentinBoard,
+            "AuthorInformation":infoAuthor
         })
     }
 }

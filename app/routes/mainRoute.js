@@ -73,8 +73,8 @@ router.post('/create-annoucement',annoucement_Controller.createNewAnnouncement);
 
 /**Bullentin Controller */
 router.post('/bullentinBoard/create',bullentin_Controller.createNewBullentinBoard);
-router.post('/bullentinBoard/detail',bullentin_Controller.viewDetail);
 router.get('/bullentinBoard/get-all',bullentin_Controller.getAllBullentinBoard);
+router.post('/bullentinBoard/detail',bullentin_Controller.getDetailBullentinBoardById);
 /**Bullentin Controller */
 
 module.exports = router;
