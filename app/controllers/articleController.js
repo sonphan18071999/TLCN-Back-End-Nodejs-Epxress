@@ -148,7 +148,7 @@ function maxInArray (allArticle) {
   var currentDatetime = new Date(),maxLikeCounts=0;
   allArticle.forEach(element => {
     if (element.postedOn.getDate() == currentDatetime.getDate()) {
-      if (maxLikeCounts < element.likesCount) {
+      if (maxLikeCounts <= element.likesCount) {
         maxLikeCounts = element.likesCount;
       }
     }
