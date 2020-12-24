@@ -14,7 +14,6 @@ let AccountSchema = new Schema({
   isNewAccount:{type:Boolean,default:true}
 })
 
-
 let imageSchema = new Schema ({
   nameImage:{type:String},
   img: {type: String }

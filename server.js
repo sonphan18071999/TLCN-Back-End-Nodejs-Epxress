@@ -13,7 +13,7 @@ const fileupload = require("express-fileupload");
 var cors = require('cors')
 var db = require('./app/models/mainModels')
 // set up dependencies
-app.use(cors())
+app.use(cors());
 var server = http.createServer((req, res) => {
 });
 dotenv.config({ path: './database.env' })

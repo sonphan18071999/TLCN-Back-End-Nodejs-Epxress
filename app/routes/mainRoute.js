@@ -71,10 +71,10 @@ router.post('/create-annoucement',annoucement_Controller.createNewAnnouncement);
 /**Create annoucement */
 
 
-/**Bullentin Controller */
+/**Facts Controller */
 router.post('/bullentinBoard/create',bullentin_Controller.createNewBullentinBoard);
 router.get('/bullentinBoard/get-all',bullentin_Controller.getAllBullentinBoard);
 router.post('/bullentinBoard/detail',bullentin_Controller.getDetailBullentinBoardById);
-/**Bullentin Controller */
+/**Facts Controller */
 
 module.exports = router;
