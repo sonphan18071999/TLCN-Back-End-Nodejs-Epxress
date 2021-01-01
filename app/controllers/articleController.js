@@ -121,16 +121,25 @@ async function pagingArticle (allArticle,current) {
       }
     })
     //Nếu có, ưu tiên bài viết được up trước
-    if(arrArticle.length>=1){
+    if(arrArticle.length>1){
       for(var i = 0;i<arrArticle.length;i++){
-        if(arrArticle[i].postedOn.getDate()<=minDay
-        && arrArticle[i].postedOn.getHours()<=minHour
-        && arrArticle[i].postedOn.getMinutes()<=minMinutes){
-          minDay=arrArticle[i].postedOn.getDate();
+        //1. So sánh giờ nếu nhỏ hơn thì gán. Nếu bằng thì so sánh phút.
+        if(arrArticle[i].postedOn.getHours()<minHour){
           minHour=arrArticle[i].postedOn.getHours();
           minMinutes = arrArticle[i].postedOn.getMinutes();
-          mostLikedArticle=arrArticle[i];
+          mostLikedArticle=arrArticle[i];   //Gán bài viết mới nhất.
+
+        }else{
+          if(arrArticle[i].postedOn.getMinutes()<minMinutes){
+            minHour=arrArticle[i].postedOn.getHours();
+            minMinutes = arrArticle[i].postedOn.getMinutes();
+            mostLikedArticle=arrArticle[i];   //Gán bài viết mới nhất.
+          }else{
+            mostLikedArticle=arrArticle[i];
+          }
         }
+        //2. So sánh phút, nểu nhỏ hơn thì gán. Nếu bằng thì so sánh s.
+        //3. So sánh giây, nếu nhỏ hơn thì gán. Không cũng gán.
       }
     }else{
       mostLikedArticle = arrArticle[0];
@@ -148,7 +157,7 @@ function maxInArray (allArticle) {
   var currentDatetime = new Date(),maxLikeCounts=0;
   allArticle.forEach(element => {
     if (element.postedOn.getDate() == currentDatetime.getDate()) {
-      if (maxLikeCounts < element.likesCount) {
+      if (maxLikeCounts <= element.likesCount) {
         maxLikeCounts = element.likesCount;
       }
     }
