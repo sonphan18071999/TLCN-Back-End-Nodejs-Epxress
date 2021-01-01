@@ -38,6 +38,7 @@ router.post('/delete-article',article_Controller.deleteArticleById)
 router.get('/get-all-article-posted-by-user',article_Controller.getAllArticleByIdUser)
 router.post('/check-author',article_Controller.checkArticleAuthor);
 router.post('/article/likePost',article_Controller.likeArticle);
+router.post('/article/search-title',article_Controller.searchArticle);
 /**Article */
 
 /**Comment */
