@@ -248,6 +248,32 @@ exports.deleteArticleById = async (req,res,next)=> {
 }
 
 exports.likeArticle = async(req,res,next)=>{
+  var uniq;
+  await db.articleModels.findOne({_id:req.body.idArticle}).then((item)=>{
+    item.arrayLike.push({idUser:req.body.idUser});
+    /**Loại bỏ những phần idUser trung trong đó */
+     uniq = item.arrayLike.filter(function ({ idUser }) {
+      return !this[idUser] && (this[idUser] = idUser)
+    }, {})
+    /**Loại bỏ những phần id trung trong đó */
+  });
+  /**Update lại arrayLike */
+  var updateArticle = await db.articleModels.findOneAndUpdate(
+    { _id: req.body.idArticle },
+    { $set: { arrayLike: uniq } });
+  var updateLikeCount = await db.articleModels.findOneAndUpdate(
+    { _id: req.body.idArticle },
+    { $set: { likesCount: uniq.length } })
+  if ((updateArticle) && (updateLikeCount)) {
+    return res.status(200).json({
+      "Message": "Like successfully",
+      "article": updateArticle
+    })
+  }else{
+    return res.status(203).json({
+      "Message":"Server busy"
+    })
+  }
 }
 exports.getAllArticleByIdUser = async(req,res,next)=>{
   var article = await db.articleModels.find({idUser:req.query.id});
