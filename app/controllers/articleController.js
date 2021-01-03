@@ -308,14 +308,23 @@ exports.checkArticleAuthor = async(req,res)=>{
 
 exports.searchArticle = async(req,res,next)=>{
   var allArticleSearched = await db.articleModels.find({tittle:{$regex:req.body.searchKeyWord}});
-  if(allArticleSearched){
+  if(allArticleSearched!=null){
     return res.status(200).json({
       "Message":"All searched Article",
       "allArticle":allArticleSearched
     })
-  }else{
-    return res.status(200).json({
-      "Message":"Can't find equivalent article"
-    })
+  } else {
+    allArticleSearched = await db.articleModels.find({ tittle: { $regex: req.body.searchKeyWord.toString().toLowerCase() } });
+    if (allArticleSearched) {
+      return res.status(200).json({
+        "Message": "All searched Article",
+        "allArticle": allArticleSearched
+      })
+    } else {
+
+      return res.status(200).json({
+        "Message": "Can't find equivalent article"
+      })
+    }
   }
 }
