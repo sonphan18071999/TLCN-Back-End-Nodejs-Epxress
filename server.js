@@ -19,14 +19,20 @@ var server = http.createServer((req, res) => {
 dotenv.config({ path: './database.env' })
 
 server = app.listen(port);
+
+app.use(function(req,res,next){
+  res.header("Access-Control-Allow-Origin","*");
+  res.header("Access-Control-Allow-Headers","Origin,X-Resquest-With,Content-Type,Accept")
+  next()
+})
 var io = require('socket.io')(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Access-Control-Allow-Origin"],
-    credentials: true
-  }
-});
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST"],
+      allowedHeaders: ["Access-Control-Allow-Origin","Access-Control-Allow-Origin"],
+      credentials: true
+    }
+  });
 
 app.use(fileupload({
   useTempFiles:true
