@@ -146,10 +146,16 @@ exports.getArticleById = async function (req, res, next) {
   }
 };
 
+<<<<<<< HEAD
 getArticleWithByHashTag = async function (req, res, next) {
+=======
+getArticleWithByHashTag = async function (req,res,next){
+  // console.log("Dữ liệu backend"+req)
+>>>>>>> 11866850929260faebf71dce3193ea29b57a235b
   var arrayIdArticle = new Array();
   var newArrayIdArticle = new Array();
   var allRelatedArticle = new Array();
+  console.log(req)
   //1. Đưa tất cả những id article có những hashtag trung nhau vào một array
   for (var item of req) {
     for (var idArticle of item.article) {
@@ -185,11 +191,15 @@ exports.updateContentArticleById = async function (req, res, next) {
     }
   }
   // 2. Update article to database type JSON - Raw
+<<<<<<< HEAD
   await db.articleModels.updateMany(
     { _id: req.body.idArticle },
     { content: article.content }
   );
 
+=======
+  await db.articleModels.updateMany({_id:req.body.idArticle},{"content":article.content});
+>>>>>>> 11866850929260faebf71dce3193ea29b57a235b
   var a = await db.articleModels.findOne({ _id: req.body.idArticle });
   if (a) {
     return res.status(200).json({
@@ -282,6 +292,7 @@ exports.searchArticle = async (req, res, next) => {
   });
   if (allArticleSearched) {
     return res.status(200).json({
+<<<<<<< HEAD
       Message: "All searched Article",
       allArticle: allArticleSearched,
     });
@@ -291,3 +302,26 @@ exports.searchArticle = async (req, res, next) => {
     });
   }
 };
+=======
+      "Message":"All searched Article",
+      "allArticle":allArticleSearched
+    })
+  } else {
+    allArticleSearched = await db.articleModels.find({ tittle: { $regex: req.body.searchKeyWord.toString().toLowerCase() } });
+    if (allArticleSearched) {
+      return res.status(200).json({
+        "Message": "All searched Article",
+        "allArticle": allArticleSearched
+      })
+    } else {
+      return res.status(200).json({
+        "Message": "Can't find equivalent article"
+      })
+    }
+  }
+}
+
+
+
+
+>>>>>>> 11866850929260faebf71dce3193ea29b57a235b
