@@ -10,7 +10,6 @@ const hash_tag_Controller = require("../controllers/hashtagController");
 const report_article_Controller = require("../controllers/articleBeingReportController");
 const annoucement_Controller = require("../controllers/announcementController");
 const bullentin_Controller = require("../controllers/bulletinBoardController");
-const mailController = require("../controllers/Mail");
 const router = express.Router();
 
 /**Brand */
@@ -108,9 +107,5 @@ router.post(
   bullentin_Controller.getDetailBullentinBoardById
 );
 /**Facts Controller */
-
-/**Mail*/
-router.post("/mail/send", mailController.sendEmail);
-/**Mail*/
 
 module.exports = router;
