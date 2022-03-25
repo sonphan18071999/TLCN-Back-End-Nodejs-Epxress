@@ -21,9 +21,13 @@ server = app.listen(port);
 var io = require("socket.io")(server, {
   cors: {
     origin: "*",
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Access-Control-Allow-Origin"],
-    credentials: false,
+    methods: ["GET", "POST", "PUT"],
+    allowedHeaders: [
+      "Access-Control-Allow-Origin",
+      "Access-Control-Allow-Headers",
+      "Access-Control-Allow-Credentials",
+    ],
+    credentials: true,
   },
 });
 
