@@ -1,111 +1,110 @@
 const express = require("express");
-const test_Controller = require("../controllers/testController");
-const brand_Controller = require("../controllers/brandController");
-const user_Account_Controller = require("../controllers/userAccountController");
-const image_Controller = require("../controllers/imageController");
-const article_Controller = require("../controllers/articleController");
-const comment_Controller = require("../controllers/commentController");
-const saved_article_Controller = require("../controllers/savedArticleController.js");
-const hash_tag_Controller = require("../controllers/hashtagController");
-const report_article_Controller = require("../controllers/articleBeingReportController");
-const annoucement_Controller = require("../controllers/announcementController");
-const bullentin_Controller = require("../controllers/bulletinBoardController");
+const articleController = require("../controllers/articleController");
+const announcementController = require("../controllers/announcementController");
+const bulletinController = require("../controllers/bulletinBoardController");
+const brandController = require("../controllers/brandController");
+const commentController = require("../controllers/commentController");
+const hashTagController = require("../controllers/hashtagController");
+const imageController = require("../controllers/imageController");
+const reportArticleController = require("../controllers/articleBeingReportController");
+const savedArticleController = require("../controllers/savedArticleController.js");
+const userAccountController = require("../controllers/userAccountController");
+const groupController = require("../controllers/groupController");
+
 const router = express.Router();
 
+const authorize = require("../middleware/auth");
 /**Brand */
-router.post("/add-new-brand", brand_Controller.addNewBrand);
+router.post("/add-new-brand", brandController.addNewBrand);
 /**Brand */
 
 /**User account */
-router.get("/get-all-user", user_Account_Controller.getAllUser);
-router.post("/add-new-user-account", user_Account_Controller.AddUserAccount);
-router.post("/check-user", user_Account_Controller.checkAccount);
-router.post("/get-user-information", user_Account_Controller.findUserById);
-
+router.get("/get-all-user", userAccountController.getAllUser);
+router.post("/add-new-user-account", userAccountController.register);
+router.get("/check-user", userAccountController.login);
+router.post("/get-user-information", userAccountController.findUserById);
 /**User account */
 
 /**Image */
-router.post("/post-image", image_Controller.addNewImage);
-router.get("/get-all-image", image_Controller.getAllImage);
+router.post("/post-image", imageController.addNewImage);
+router.get("/get-all-image", imageController.getAllImage);
 /**Image */
 
 /**Article */
-router.post("/post-article", article_Controller.addNewArticle);
-router.post("/get-all-article", article_Controller.getAllArticle);
-router.get("/get-article", article_Controller.getArticleById);
+router.post("/post-article", articleController.addNewArticle);
+router.post("/get-all-article", articleController.getAllArticle);
+router.get("/get-article", articleController.getArticleById);
 router.post(
   "/update-article-content",
-  article_Controller.updateContentArticleById
+  articleController.updateContentArticleById
 );
-router.post("/delete-article", article_Controller.deleteArticleById);
+router.post("/delete-article", articleController.deleteArticleById);
 router.get(
   "/get-all-article-posted-by-user",
-  article_Controller.getAllArticleByIdUser
+  articleController.getAllArticleByIdUser
 );
-router.post("/check-author", article_Controller.checkArticleAuthor);
-router.post("/article/likePost", article_Controller.likeArticle);
-router.post("/article/search-title", article_Controller.searchArticle);
+router.post("/check-author", articleController.checkArticleAuthor);
+router.post("/article/likePost", articleController.likeArticle);
+router.post("/article/search-title", articleController.searchArticle);
 /**Article */
 
 /**Comment */
-router.post(
-  "/get-comment-article",
-  comment_Controller.getAllCommentByIdArticle
-);
-router.post("/post-comment-parent", comment_Controller.postCommentParent);
-router.post("/post-comment-child", comment_Controller.postCommentChild);
+router.post("/get-comment-article", commentController.getAllCommentByIdArticle);
+router.post("/post-comment-parent", commentController.postCommentParent);
+router.post("/post-comment-child", commentController.postCommentChild);
 /**Comment */
 
 /**Saved Article */
-router.post("/save-article", saved_article_Controller.SaveArticle);
+router.post("/save-article", savedArticleController.SaveArticle);
 router.post(
   "/check-save-status-article",
-  saved_article_Controller.checkSaveArticle
+  savedArticleController.checkSaveArticle
 );
 router.post(
   "/get-saved-article-by-user",
-  saved_article_Controller.getSavedArticleByIdUser
+  savedArticleController.getSavedArticleByIdUser
 );
 /**Saved Article */
 
 /**Save HashTag */
-router.post("/create-hashtag", hash_tag_Controller.createHashTag);
+router.post("/create-hashtag", hashTagController.createHashTag);
 /**Save HashTag */
 
 /**Report article */
-router.post("/create-report", report_article_Controller.createReports);
+router.post("/create-report", reportArticleController.createReports);
 router.get(
   "/all-article-being-report",
-  report_article_Controller.getAllArticleBeingReport
+  reportArticleController.getAllArticleBeingReport
 ); //get all article being report
-router.post("/disable-article", report_article_Controller.disableArticle); //Disable article
-router.post("/enable-article", report_article_Controller.enableArticle); //Enable article
+router.post("/disable-article", reportArticleController.disableArticle); //Disable article
+router.post("/enable-article", reportArticleController.enableArticle); //Enable article
 router.post(
   "/update-level-artilce-report",
-  report_article_Controller.setLevelForArticleReport
+  reportArticleController.setLevelForArticleReport
 );
 /**Report article */
 
 /**Create annoucement */
 router.post(
   "/create-annoucement",
-  annoucement_Controller.createNewAnnouncement
+  announcementController.createNewAnnouncement
 );
 /**Create annoucement */
 
 /**Facts Controller */
 router.post(
   "/bullentinBoard/create",
-  bullentin_Controller.createNewBullentinBoard
+  bulletinController.createNewBullentinBoard
 );
-router.get(
-  "/bullentinBoard/get-all",
-  bullentin_Controller.getAllBullentinBoard
-);
+router.get("/bullentinBoard/get-all", bulletinController.getAllBullentinBoard);
 router.post(
   "/bullentinBoard/detail",
-  bullentin_Controller.getDetailBullentinBoardById
+  bulletinController.getDetailBullentinBoardById
 );
 /**Facts Controller */
+
+// Group
+
+router.post("/group", authorize, groupController.createGroup);
 
 module.exports = router;

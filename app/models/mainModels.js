@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-let AccountSchema = new Schema({
+let account = new Schema({
   email: { type: String, required: true, default: null },
   password: { type: String, required: true, min: 6 },
   otp: { type: String, default: null },
@@ -16,6 +16,7 @@ let AccountSchema = new Schema({
     default: "normal",
   },
   isNewAccount: { type: Boolean, default: true },
+  token: { type: String },
 });
 
 let imageSchema = new Schema({
@@ -23,7 +24,7 @@ let imageSchema = new Schema({
   img: { type: String },
 });
 
-let articleSchema = new Schema({
+let post = new Schema({
   tittle: { type: String },
   description: { type: String },
   content: [
@@ -91,10 +92,6 @@ let hashTagSchema = new Schema({
 });
 
 let ArticleBeingReportSchema = new Schema({
-  // Level 0: Cảnh bảo,
-  // Level 1: Ban 3 ngày,
-  // Level 2: Ban 7 ngày,
-  // Level 3: Xóa bài viết
   idArticle: { type: String },
   userReport: [
     {
@@ -127,29 +124,29 @@ let mailSchema = new Schema({
   timeToSend: { type: Date },
 });
 
-var articleModels = mongoose.model("Articles", articleSchema);
-var articleBeingReportModels = mongoose.model(
+let postDTO = mongoose.model("Articles", post);
+let articleBeingReportModels = mongoose.model(
   "ArticleBeingReport",
   ArticleBeingReportSchema
 );
-var announceModels = mongoose.model("Announcement", announceArticleSchema);
-var bullentinBoard = mongoose.model("BullentinBoard", BullentinBoardSchema);
-var commentModels = mongoose.model("Comments", commentSchema);
-var hashTagModels = mongoose.model("HashTag", hashTagSchema);
-var imageModels = mongoose.model("Image", imageSchema);
-var savedModels = mongoose.model("SavedArticle", savedArticleSchema);
-var userAccountModels = mongoose.model("UserAccount", AccountSchema);
-var mailModel = mongoose.model("Mail", mailSchema);
+let announceModels = mongoose.model("Announcement", announceArticleSchema);
+let bullentinBoard = mongoose.model("BullentinBoard", BullentinBoardSchema);
+let commentModels = mongoose.model("Comments", commentSchema);
+let hashTagModels = mongoose.model("HashTag", hashTagSchema);
+let imageModels = mongoose.model("Image", imageSchema);
+let savedModels = mongoose.model("SavedArticle", savedArticleSchema);
+let accountDTO = mongoose.model("UserAccount", account);
+let mailModel = mongoose.model("Mail", mailSchema);
 
 module.exports = {
-  userAccountModels: userAccountModels,
-  imageModels: imageModels,
-  articleModels: articleModels,
-  commentModels: commentModels,
-  savedModels: savedModels,
-  announceModels: announceModels,
-  hashTagModels: hashTagModels,
-  articleBeingReportModels: articleBeingReportModels,
-  bullentinBoard: bullentinBoard,
-  mailModel: mailModel,
+  accountDTO,
+  imageModels,
+  postDTO,
+  commentModels,
+  savedModels,
+  announceModels,
+  hashTagModels,
+  articleBeingReportModels,
+  bullentinBoard,
+  mailModel,
 };

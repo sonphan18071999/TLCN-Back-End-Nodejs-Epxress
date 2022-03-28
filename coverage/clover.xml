@@ -72,7 +72,7 @@
     </package>
     <package name="models">
       <metrics statements="20" coveredstatements="20" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="mainModels.js" path="D:\HocTap\Nam 4-HKI\TLCN\Back-End\Basic Nodejs\TLCN-Back-End-Nodejs-Epxress\app\models\mainModels.js">
+      <file name="mainModels.ts" path="D:\HocTap\Nam 4-HKI\TLCN\Back-End\Basic Nodejs\TLCN-Back-End-Nodejs-Epxress\app\models\mainModels.ts">
         <metrics statements="20" coveredstatements="20" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>

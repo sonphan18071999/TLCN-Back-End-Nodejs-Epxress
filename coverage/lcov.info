@@ -117,7 +117,7 @@ BRF:2
 BRH:0
 end_of_record
 TN:
-SF:app\models\mainModels.js
+SF:app\models\mainModels.ts
 FNF:0
 FNH:0
 DA:1,1

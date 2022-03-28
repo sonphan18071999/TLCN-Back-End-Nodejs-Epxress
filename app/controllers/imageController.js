@@ -1,6 +1,4 @@
-const db = require("../models/mainModels");
-const fs = require("fs");
-const uploadLocal = require("../middleware/upload");
+
 const Grid = require("gridfs-stream");
 const { mongo } = require("mongoose");
 const cloudinary = require("cloudinary").v2;

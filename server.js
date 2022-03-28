@@ -11,7 +11,6 @@ const mongoose = require("mongoose");
 const start = require("./app/routes/mainRoute");
 const fileupload = require("express-fileupload");
 var cors = require("cors");
-var db = require("./app/models/mainModels");
 // set up dependencies
 app.use(cors());
 var server = http.createServer((req, res) => {});

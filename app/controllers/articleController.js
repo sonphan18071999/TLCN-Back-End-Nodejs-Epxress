@@ -1,7 +1,5 @@
-const { json } = require("body-parser");
 const db = require("../models/mainModels");
-const upload = require("../middleware/upload");
-const { Schema, mongo, isValidObjectId, Mongoose } = require("mongoose");
+const { mongo } = require("mongoose");
 const { ObjectId } = require("mongodb"); // or ObjectID
 const hash_tag_Controller = require("./hashtagController");
 
