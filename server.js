@@ -17,6 +17,8 @@ var server = http.createServer((req, res) => {});
 dotenv.config({ path: "./database.env" });
 
 server = app.listen(port);
+console.log(port)
+
 var io = require("socket.io")(server, {
   cors: {
     origin: "*",

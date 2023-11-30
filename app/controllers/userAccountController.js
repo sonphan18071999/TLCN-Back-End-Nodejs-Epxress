@@ -6,6 +6,7 @@ exports.register = async function (req, res, next) {
   let checkEmail = await db.accountDTO.findOne({
     email: req.body.email,
   });
+  console.log("req",req)
   if (checkEmail) {
     return res.status(500).json({ Message: "Email already used" });
   } else {
@@ -23,6 +24,7 @@ exports.register = async function (req, res, next) {
     }
   }
 };
+
 exports.login = async function (req, res, next) {
   if (req.body.typeAccount == "facebook") {
     await db.accountDTO.findOne({ email: req.body.email }, (er, ok) => {
@@ -57,24 +59,26 @@ exports.login = async function (req, res, next) {
       }
     });
   } else if (req.body.typeAccount === "admin") {
-    var chkUser = await db.accountDTO.findOne({
-      email: req.body.email,
-      password: req.body.password,
-      typeAccount: req.body.typeAccount,
-    });
-    if (chkUser) {
-      return res.status(200).json({
-        message: "User does exist",
-        user: chkUser,
-      });
-    } else {
-      return res.status(500).json({
-        message: "User doesn't exist",
-      });
-    }
+    // let chkUser = await db.accountDTO.findOne({
+    //   email: req.body.email,
+    //   password: req.body.password,
+    //   typeAccount: req.body.typeAccount,
+    // });
+    // if (chkUser) {
+    //   return res.status(200).json({
+    //     message: "User does exist",
+    //     user: chkUser,
+    //   });
+    // } else {
+    //   return res.status(500).json({
+    //     message: "User doesn't exist",
+    //   });
+    // }
+    return res.status(200);
   }
+
   if (req.body.typeAccount === "normal") {
-    var chkUser = await db.accountDTO.findOne({
+    let chkUser = await db.accountDTO.findOne({
       email: req.body.email,
       password: req.body.password,
     });

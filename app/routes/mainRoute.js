@@ -20,8 +20,8 @@ router.post("/add-new-brand", brandController.addNewBrand);
 
 /**User account */
 router.get("/get-all-user", userAccountController.getAllUser);
-router.post("/add-new-user-account", userAccountController.register);
-router.get("/check-user", userAccountController.login);
+router.post("/add-new", userAccountController.register);
+router.post("/check-user", userAccountController.login);
 router.post("/get-user-information", userAccountController.findUserById);
 /**User account */
 
